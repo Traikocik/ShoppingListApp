@@ -32,8 +32,9 @@ namespace ShoppingList4F1.Models
                 foreach (var shoppingListElement in doc.Root.Elements("ShoppingList"))
                 {
                     string name = shoppingListElement.Element("Name").Value;
-                    ObservableCollection<Product> products = GetProductsFromElement(shoppingListElement.Element("Products"));
-
+                    ObservableCollection<Product> products = ShoppingList.GetProductsFromElement(shoppingListElement.Element("Products"));
+                    // Ewentualnie zamiast tworzenia nazwy i produktów i potem z nich tworzenia obiektu oraz używania metody jako statycznej,
+                    // można najpierw tworzyć obiekt tylko za pomocą nazwy i potem zmienić funkcję GetProductsFromElement na SetProductsFromElement i ona już tam w ShoppingList.cs będzie ustawiała
                     ShoppingList shoppingList = new ShoppingList(name, products);
                     ShoppingLists.Add(shoppingList);
                 }
@@ -44,10 +45,9 @@ namespace ShoppingList4F1.Models
         {
             var rootElement = new XElement("ShoppingLists");
 
-            XAttribute productsElement = new XElement(GetElementFromProducts());
-
             foreach (var shoppingList in ShoppingLists)
             {
+                XElement productsElement = new XElement(shoppingList.GetElementFromProducts());
                 var shoppingListElement = new XElement("ShoppingList",
                     new XElement("Name", shoppingList.Name),
                     productsElement);
@@ -55,6 +55,14 @@ namespace ShoppingList4F1.Models
 
             var doc = new XDocument(rootElement);
             doc.Save(FileName);
+        }
+
+        public void DeleteShoppingList()
+        {
+
+
+
+            SaveShoppingLists();
         }
     }
 }

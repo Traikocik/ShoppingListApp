@@ -37,7 +37,7 @@ namespace ShoppingList4F1.Models
             return productsElement;
         }
 
-        public ObservableCollection<Product> GetProductsFromElement(XElement productsElement)
+        public static ObservableCollection<Product> GetProductsFromElement(XElement productsElement)
         {
             ObservableCollection<Product> products = new();
 
