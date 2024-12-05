@@ -14,7 +14,7 @@
             <DataTemplate>
                 <StackLayout>
                     <CheckBox IsChecked="{Binding IsBought}"/>
-                    <Label Text="{Binding Text}"/>
+                    <Label Text="{Binding Name}"/>
                     <Label Text="{Binding Quantity}"/>
                     <Label Text="{Binding TypeOfMeasurement}"/>
                 </StackLayout>

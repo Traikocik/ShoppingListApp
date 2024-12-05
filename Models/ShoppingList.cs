@@ -11,21 +11,48 @@ namespace ShoppingList4F1.Models
     internal class ShoppingList
     {
         public ObservableCollection<Product> Products { get; set; } = new();
+        public string Name { get; set; }
 
-        public void LoadProducts()
+        public ShoppingList(string name, ObservableCollection<Product> products) 
         {
-            Products.Clear();
+            Name = name;
+            Products = products;
         }
 
-        public void SaveProducts()
+        public XElement GetElementFromProducts()
         {
-            XDocument doc = new XDocument(
-                new XElement("ShoppingLists", 
-                    Products.Select(product => new XElement("Counter", 
-                        new XAttribute("Name", product.Name), 
-                        new XAttribute("TypeOfMeasurement", product.TypeOfMeasurement), 
-                        new XAttribute("Quantity", product.Quantity), 
-                        new XAttribute("IsBought", product.IsBought)))));
+            var productsElement = new XElement("Products");
+
+            foreach (var product in Products)
+            {
+                var productElement = new XElement("Product",
+                    new XAttribute("Name", product.Name),
+                    new XAttribute("TypeOfMeasurement", product.TypeOfMeasurement),
+                    new XAttribute("IsBought", product.IsBought),
+                    new XAttribute("Quantity", product.Quantity));
+
+                productsElement.Add(productElement);
+            }
+
+            return productsElement;
+        }
+
+        public ObservableCollection<Product> GetProductsFromElement(XElement productsElement)
+        {
+            ObservableCollection<Product> products = new();
+
+            foreach (XElement productElement in productsElement.Elements("Product"))
+            {
+                string name = productElement.Attribute("Name").Value;
+                string typeOfMeasurement = productElement.Attribute("TypeOfMeasurement").Value;
+                bool isBought = bool.Parse(productElement.Attribute("IsBought").Value);
+                int quantity = int.Parse(productElement.Attribute("Quantity").Value);
+
+                Product product = new Product(name, typeOfMeasurement, isBought, quantity);
+                products.Add(product);
+            }
+
+            return products;
         }
     }
 }
