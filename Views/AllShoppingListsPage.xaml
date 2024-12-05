@@ -3,11 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShoppingList4F1.Views.AllShoppingListsPage"
              Title="All Shopping Lists">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add Shopping List" Clicked="AddShoppingList_Clicked" IconImageSource="{FontImage Glyph='+', Color=Black, Size=20}" />
+    </ContentPage.ToolbarItems>
     <CollectionView x:Name="shoppingListsCollection"
                     ItemsSource="{Binding ShoppingLists}"
                     SelectionMode="Single"
                     SelectionChanged="shoppingListsCollection_SelectionChanged">
-    <CollectionView.ItemsLayout>
+        <CollectionView.ItemsLayout>
             <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
         </CollectionView.ItemsLayout>
         <CollectionView.ItemTemplate>

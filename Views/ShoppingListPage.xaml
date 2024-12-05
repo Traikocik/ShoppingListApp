@@ -3,6 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShoppingList4F1.Models.ShoppingListPage"
              Title="Shopping List">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add Product" Clicked="AddProduct_Clicked" IconImageSource="{FontImage Glyph='+', Color=Black, Size=20}" />
+    </ContentPage.ToolbarItems>
     <CollectionView x:Name="productsCollection"
                     ItemsSource="{Binding Products}"
                     SelectionMode="Single"

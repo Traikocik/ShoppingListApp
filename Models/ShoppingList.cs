@@ -13,6 +13,8 @@ namespace ShoppingList4F1.Models
         public ObservableCollection<Product> Products { get; set; } = new();
         public string Name { get; set; }
 
+        public ShoppingList() { }
+
         public ShoppingList(string name, ObservableCollection<Product> products) 
         {
             Name = name;
