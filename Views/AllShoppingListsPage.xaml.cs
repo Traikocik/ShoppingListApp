@@ -12,7 +12,9 @@ public partial class AllShoppingListsPage : ContentPage
 
     protected override void OnAppearing()
     {
-        ((AllShoppingLists)BindingContext).LoadShoppingLists();
+        base.OnAppearing();
+        AllShoppingLists.LoadShoppingLists();
+        shoppingListsCollection.ItemsSource = AllShoppingLists.ShoppingLists;
     }
 
     private async void shoppingListsCollection_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -28,6 +30,6 @@ public partial class AllShoppingListsPage : ContentPage
     private async void AddShoppingList_Clicked(object sender, EventArgs e)
     {
         //await Shell.Current.GoToAsync(nameof(CreateShoppingListPage));
-        await Navigation.PushAsync(new CreateShoppingListPage((AllShoppingLists)BindingContext));
+        await Navigation.PushAsync(new CreateShoppingListPage());
     }
 }

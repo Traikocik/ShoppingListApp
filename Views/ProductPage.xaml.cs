@@ -18,7 +18,7 @@ public partial class ProductPage : ContentPage
             await DisplayAlert("WARNING", "Product's name entry is empty! It will be replaced with 'Product'", "OK");
         }
 
-        if (!int.TryParse(QuantityEditor.Text, out int quantity))
+        if (!double.TryParse(QuantityEditor.Text, out double quantity))
         {
             quantity = 1;
             await DisplayAlert("WARNING", "Quantity's entry is empty! It will be replaced with '1'", "OK");
@@ -31,7 +31,7 @@ public partial class ProductPage : ContentPage
             await DisplayAlert("WARNING", "Type of measurement's entry is empty! It will be replaced with 'Things'", "OK");
         }
 
-        //ShoppingList.Products.Add(new Models.Product(name, typeOfMeasurement, false, quantity));
+        ShoppingList.Products.Add(new Models.Product(name, typeOfMeasurement, false, quantity));
 
         //Models.AllShoppingLists allShoppingLists = new Models.AllShoppingLists();
         //if (!allShoppingLists.ShoppingLists.Contains(ShoppingList))
@@ -39,7 +39,7 @@ public partial class ProductPage : ContentPage
         //    allShoppingLists.ShoppingLists.Add(ShoppingList);
         //}
 
-        //allShoppingLists.SaveShoppingLists();
+        Models.AllShoppingLists.SaveShoppingLists();
         // ZMIENIÆ!
 
         await Shell.Current.GoToAsync("..");

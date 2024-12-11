@@ -12,8 +12,8 @@ namespace ShoppingList4F1.Models
 {
     public class AllShoppingLists
     {
-        public ObservableCollection<ShoppingList> ShoppingLists { get; set; } = new();
-        private string FileName;
+        public static ObservableCollection<ShoppingList> ShoppingLists { get; set; } = new();
+        private static string FileName;
 
         public AllShoppingLists()
         {
@@ -21,7 +21,7 @@ namespace ShoppingList4F1.Models
             LoadShoppingLists();
         }
 
-        public void LoadShoppingLists()
+        public static void LoadShoppingLists()
         {            
             if (File.Exists(FileName))
             {
@@ -39,7 +39,7 @@ namespace ShoppingList4F1.Models
             }
         }
 
-        public void SaveShoppingLists()
+        public static void SaveShoppingLists()
         {
             var rootElement = new XElement("ShoppingLists");
 

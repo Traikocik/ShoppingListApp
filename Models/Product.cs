@@ -11,9 +11,10 @@ namespace ShoppingList4F1.Models
         public string Name;
         public string TypeOfMeasurement;
         public bool IsBought = false;
-        public int Quantity;
+        public bool IsOptional = false;
+        public double Quantity;
 
-        public Product(string name, string typeOfMeasurement, bool isBought, int quantity)
+        public Product(string name, string typeOfMeasurement, bool isBought, double quantity)
         {
             Name = name;
             TypeOfMeasurement = typeOfMeasurement;
