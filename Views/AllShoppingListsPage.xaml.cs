@@ -1,3 +1,5 @@
+using System.Xml.Linq;
+
 namespace ShoppingList4F1.Views;
 
 public partial class AllShoppingListsPage : ContentPage
@@ -29,5 +31,14 @@ public partial class AllShoppingListsPage : ContentPage
     {
         //await Shell.Current.GoToAsync(nameof(CreateShoppingListPage));
         await Navigation.PushAsync(new CreateShoppingListPage());
+    }
+
+    private void RemoveButton_Clicked(object sender, EventArgs e)
+    {
+        if (sender is ImageButton imageButton && imageButton.BindingContext is Models.ShoppingList shoppingListToBeDeleted)
+        {
+            Models.AllShoppingLists.ShoppingLists.Remove(shoppingListToBeDeleted);
+            Models.AllShoppingLists.SaveShoppingLists();
+        }
     }
 }

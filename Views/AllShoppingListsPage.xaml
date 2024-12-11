@@ -17,6 +17,7 @@
             <DataTemplate>
                 <StackLayout>
                     <Label Text="{Binding Name}"/>
+                    <ImageButton WidthRequest="20" HeightRequest="20" Background="Transparent" Source="remove.png" Clicked="RemoveButton_Clicked"/>
                 </StackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>
