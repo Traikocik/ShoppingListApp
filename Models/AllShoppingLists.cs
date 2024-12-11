@@ -57,13 +57,5 @@ namespace ShoppingList4F1.Models
             var doc = new XDocument(rootElement);
             doc.Save(FileName);
         }
-
-        public void DeleteShoppingList()
-        {
-
-
-
-            SaveShoppingLists();
-        }
     }
 }
