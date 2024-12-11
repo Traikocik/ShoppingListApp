@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Maui.Controls;
 
@@ -16,12 +17,18 @@ public partial class ProductView : ContentView
 
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
+        if (e.Value)
+            ((StackLayout)((CheckBox)sender).Parent).BackgroundColor = Color.FromRgb(100, 100, 100);
+        else
+            ((StackLayout)((CheckBox)sender).Parent).BackgroundColor = Color.FromRgb(40, 40, 40);
+
         if (sender is CheckBox checkBox && checkBox.BindingContext is Models.Product changedProduct)
         {
             var currentProduct = CurrentShoppingList.Products.FirstOrDefault(p => p.Id == changedProduct.Id);
             if (currentProduct != null)
             {
                 currentProduct.IsBought = e.Value;
+                CurrentShoppingList.Products = new ObservableCollection<Models.Product>(CurrentShoppingList.Products.OrderBy(p => p.IsBought));
                 Models.AllShoppingLists.SaveShoppingLists();
             }
         }
