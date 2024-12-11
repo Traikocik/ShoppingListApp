@@ -7,6 +7,7 @@ public partial class ProductPage : ContentPage
 	{
 		InitializeComponent();
         ShoppingList = shoppingList;
+        BindingContext = new Models.Product();
     }
 
     private async void SaveButton_Clicked(object sender, EventArgs e)
@@ -31,16 +32,8 @@ public partial class ProductPage : ContentPage
             await DisplayAlert("WARNING", "Type of measurement's entry is empty! It will be replaced with 'Things'", "OK");
         }
 
-        ShoppingList.Products.Add(new Models.Product(name, typeOfMeasurement, false, quantity));
-
-        //Models.AllShoppingLists allShoppingLists = new Models.AllShoppingLists();
-        //if (!allShoppingLists.ShoppingLists.Contains(ShoppingList))
-        //{
-        //    allShoppingLists.ShoppingLists.Add(ShoppingList);
-        //}
-
+        ShoppingList.Products.Add(new Models.Product(name, typeOfMeasurement, quantity));
         Models.AllShoppingLists.SaveShoppingLists();
-        // ZMIENIÆ!
 
         await Shell.Current.GoToAsync("..");
     }

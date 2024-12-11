@@ -10,13 +10,24 @@ namespace ShoppingList4F1.Models
 {
     public class ShoppingList
     {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public ObservableCollection<Product> Products { get; set; } = new();
         public string Name { get; set; }
 
-        public ShoppingList() { }
+        public ShoppingList() 
+        {
+            Id = Guid.NewGuid().ToString();
+        }
 
         public ShoppingList(string name) 
         {
+            Id = Guid.NewGuid().ToString();
+            Name = name;
+        }
+
+        public ShoppingList(string id, string name)
+        {
+            Id = id;
             Name = name;
         }
 
@@ -27,6 +38,7 @@ namespace ShoppingList4F1.Models
             foreach (var product in Products)
             {
                 var productElement = new XElement("Product",
+                    new XAttribute("Id", product.Id),
                     new XAttribute("Name", product.Name),
                     new XAttribute("TypeOfMeasurement", product.TypeOfMeasurement),
                     new XAttribute("IsBought", product.IsBought),
@@ -44,12 +56,13 @@ namespace ShoppingList4F1.Models
 
             foreach (XElement productElement in productsElement.Elements("Product"))
             {
+                string id = productElement.Attribute("Id").Value;
                 string name = productElement.Attribute("Name").Value;
                 string typeOfMeasurement = productElement.Attribute("TypeOfMeasurement").Value;
                 bool isBought = bool.Parse(productElement.Attribute("IsBought").Value);
                 int quantity = int.Parse(productElement.Attribute("Quantity").Value);
 
-                Product product = new Product(name, typeOfMeasurement, isBought, quantity);
+                Product product = new Product(id, name, typeOfMeasurement, isBought, quantity);
                 products.Add(product);
             }
 

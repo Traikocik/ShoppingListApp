@@ -15,11 +15,14 @@
         </CollectionView.ItemsLayout>
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <StackLayout>
-                    <CheckBox IsChecked="{Binding IsBought}"/>
-                    <Label Text="{Binding Name}"/>
-                    <Label Text="{Binding Quantity}"/>
-                    <Label Text="{Binding TypeOfMeasurement}"/>
+                <StackLayout Orientation="Horizontal">
+                    <CheckBox Margin="5" IsChecked="{Binding IsBought}" CheckedChanged="CheckBox_CheckedChanged"/>
+                    <Label Margin="5" Text="{Binding Name}"/>
+                    <Label Margin="5" Text="{Binding Quantity}"/>
+                    <Label Margin="5" Text="{Binding TypeOfMeasurement}"/>
+                    <ImageButton WidthRequest="20" HeightRequest="20" Background="Transparent" Source="plus.png" Clicked="IncrementButton_Clicked"/>
+                    <ImageButton WidthRequest="20" HeightRequest="20" Background="Transparent" Source="minus.png" Clicked="DecrementButton_Clicked"/>
+                    <ImageButton WidthRequest="20" HeightRequest="20" Background="Transparent" Source="remove.png" Clicked="RemoveButton_Clicked"/>
                 </StackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>
