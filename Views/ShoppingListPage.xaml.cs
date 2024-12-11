@@ -14,6 +14,17 @@ public partial class ShoppingListPage : ContentPage
     {
         base.OnAppearing();
         productsCollection.ItemsSource = ((Models.ShoppingList)BindingContext).Products;
+
+        var shoppingList = (Models.ShoppingList)BindingContext;
+
+        productsCollection.ItemTemplate = new DataTemplate(() =>
+        {
+            var productView = new ProductView { CurrentShoppingList = shoppingList };
+            productView.SetBinding(BindingContextProperty, ".");
+            return productView;
+        });
+
+        productsCollection.ItemsSource = shoppingList.Products;
     }
 
     public ShoppingListPage(Models.ShoppingList shoppingList)
