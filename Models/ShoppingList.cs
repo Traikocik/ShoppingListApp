@@ -11,7 +11,8 @@ namespace ShoppingList4F1.Models
     public class ShoppingList
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public ObservableCollection<Product> Products { get; set; } = new();
+        //public ObservableCollection<Product> Products { get; set; } = new();
+        public ObservableCollection<Category> Categories { get; set; } = new();
         public string Name { get; set; }
 
         public ShoppingList() 
@@ -31,42 +32,38 @@ namespace ShoppingList4F1.Models
             Name = name;
         }
 
-        public XElement GetElementFromProducts()
+        public void SetCategoriesFromElement(XElement categoriesElement)
         {
-            var productsElement = new XElement("Products");
+            ObservableCollection<Category> categories = new();
 
-            foreach (var product in Products)
+            foreach (XElement categoryElement in categoriesElement.Elements("Category"))
             {
-                var productElement = new XElement("Product",
-                    new XAttribute("Id", product.Id),
-                    new XAttribute("Name", product.Name),
-                    new XAttribute("TypeOfMeasurement", product.TypeOfMeasurement),
-                    new XAttribute("IsBought", product.IsBought),
-                    new XAttribute("Quantity", product.Quantity));
-
-                productsElement.Add(productElement);
+                string id = categoryElement.Attribute("Id").Value;
+                string name = categoryElement.Attribute("Name").Value;
+                Category category = new Category(id, name);
+                category.SetProductsFromElement(categoryElement.Element("Products"));
+                categories.Add(category);
             }
 
-            return productsElement;
+            Categories = categories;
         }
 
-        public void SetProductsFromElement(XElement productsElement)
+        public XElement GetElementFromCategories()
         {
-            ObservableCollection<Product> products = new();
+            var categoriesElement = new XElement("Categories");
 
-            foreach (XElement productElement in productsElement.Elements("Product"))
+            foreach (var category in Categories)
             {
-                string id = productElement.Attribute("Id").Value;
-                string name = productElement.Attribute("Name").Value;
-                string typeOfMeasurement = productElement.Attribute("TypeOfMeasurement").Value;
-                bool isBought = bool.Parse(productElement.Attribute("IsBought").Value);
-                int quantity = int.Parse(productElement.Attribute("Quantity").Value);
+                XElement productsElement = new XElement(category.GetElementFromCategories());
+                var categoryElement = new XElement("Category",
+                    new XAttribute("Id", category.Id),
+                    new XAttribute("Name", category.Name),
+                    productsElement);
 
-                Product product = new Product(id, name, typeOfMeasurement, isBought, quantity);
-                products.Add(product);
+                categoriesElement.Add(categoryElement);
             }
 
-            Products = products;
+            return categoriesElement;
         }
     }
 }

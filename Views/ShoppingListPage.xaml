@@ -7,16 +7,14 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add Product" Clicked="AddProduct_Clicked" IconImageSource="{FontImage Glyph='+', Color=Black, Size=20}" />
     </ContentPage.ToolbarItems>
-    <CollectionView x:Name="productsCollection"
-                    ItemsSource="{Binding Products}"
-                    SelectionMode="Single"
-                    SelectionChanged="productsCollection_SelectionChanged">
+    <CollectionView x:Name="categoriesCollection"
+                    ItemsSource="{Binding Categories}">
         <CollectionView.ItemsLayout>
             <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
         </CollectionView.ItemsLayout>
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <views:ProductView BindingContext="{Binding}" />
+                <views:CategoryView BindingContext="{Binding}" />
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>

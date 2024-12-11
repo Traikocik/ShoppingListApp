@@ -34,7 +34,7 @@ namespace ShoppingList4F1.Models
                     string id = shoppingListElement.Attribute("Id").Value;
                     string name = shoppingListElement.Element("Name").Value;
                     ShoppingList shoppingList = new ShoppingList(id, name);
-                    shoppingList.SetProductsFromElement(shoppingListElement.Element("Products"));
+                    shoppingList.SetCategoriesFromElement(shoppingListElement.Element("Categories"));
                     ShoppingLists.Add(shoppingList);
                 }
             }
@@ -46,11 +46,11 @@ namespace ShoppingList4F1.Models
 
             foreach (var shoppingList in ShoppingLists)
             {
-                XElement productsElement = new XElement(shoppingList.GetElementFromProducts());
+                XElement categoriesElement = new XElement(shoppingList.GetElementFromCategories());
                 var shoppingListElement = new XElement("ShoppingList",
                     new XAttribute("Id", shoppingList.Id),
-                    new XElement("Name", shoppingList.Name),
-                    productsElement);
+                    new XAttribute("Name", shoppingList.Name),
+                    categoriesElement);
                 rootElement.Add(shoppingListElement);
             }
 

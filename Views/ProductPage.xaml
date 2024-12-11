@@ -22,6 +22,10 @@
             Text="{Binding Quantity}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <Picker x:Name="CategoryPicker"
+                Title="Select Category"
+                ItemsSource="{Binding Categories}"
+                ItemDisplayBinding="{Binding Name}" />
         <Button 
             Text="Save"
             Clicked="SaveButton_Clicked" />
