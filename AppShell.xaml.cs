@@ -5,6 +5,10 @@
         public AppShell()
         {
             InitializeComponent();
+
+            Routing.RegisterRoute(nameof(Views.CreateShoppingListPage), typeof(Views.CreateShoppingListPage));
+            Routing.RegisterRoute(nameof(Views.ShoppingListPage), typeof(Views.ShoppingListPage));
+            //Routing.RegisterRoute(nameof(Views.ProductPage), typeof(Views.ProductPage));
         }
     }
 }

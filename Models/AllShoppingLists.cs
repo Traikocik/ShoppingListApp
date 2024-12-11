@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace ShoppingList4F1.Models
 {
-    internal class AllShoppingLists
+    public class AllShoppingLists
     {
         public ObservableCollection<ShoppingList> ShoppingLists { get; set; } = new();
         private string FileName;
@@ -32,10 +32,8 @@ namespace ShoppingList4F1.Models
                 foreach (var shoppingListElement in doc.Root.Elements("ShoppingList"))
                 {
                     string name = shoppingListElement.Element("Name").Value;
-                    ObservableCollection<Product> products = ShoppingList.GetProductsFromElement(shoppingListElement.Element("Products"));
-                    // Ewentualnie zamiast tworzenia nazwy i produktów i potem z nich tworzenia obiektu oraz używania metody jako statycznej,
-                    // można najpierw tworzyć obiekt tylko za pomocą nazwy i potem zmienić funkcję GetProductsFromElement na SetProductsFromElement i ona już tam w ShoppingList.cs będzie ustawiała
-                    ShoppingList shoppingList = new ShoppingList(name, products);
+                    ShoppingList shoppingList = new ShoppingList(name);
+                    shoppingList.SetProductsFromElement(shoppingListElement.Element("Products"));
                     ShoppingLists.Add(shoppingList);
                 }
             }
@@ -51,6 +49,7 @@ namespace ShoppingList4F1.Models
                 var shoppingListElement = new XElement("ShoppingList",
                     new XElement("Name", shoppingList.Name),
                     productsElement);
+                rootElement.Add(shoppingListElement);
             }
 
             var doc = new XDocument(rootElement);

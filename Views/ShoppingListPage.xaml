@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ShoppingList4F1.Models.ShoppingListPage"
+             x:Class="ShoppingList4F1.Views.ShoppingListPage"
              Title="Shopping List">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add Product" Clicked="AddProduct_Clicked" IconImageSource="{FontImage Glyph='+', Color=Black, Size=20}" />

@@ -8,17 +8,16 @@ using System.Xml.Linq;
 
 namespace ShoppingList4F1.Models
 {
-    internal class ShoppingList
+    public class ShoppingList
     {
         public ObservableCollection<Product> Products { get; set; } = new();
         public string Name { get; set; }
 
         public ShoppingList() { }
 
-        public ShoppingList(string name, ObservableCollection<Product> products) 
+        public ShoppingList(string name) 
         {
             Name = name;
-            Products = products;
         }
 
         public XElement GetElementFromProducts()
@@ -39,7 +38,7 @@ namespace ShoppingList4F1.Models
             return productsElement;
         }
 
-        public static ObservableCollection<Product> GetProductsFromElement(XElement productsElement)
+        public void SetProductsFromElement(XElement productsElement)
         {
             ObservableCollection<Product> products = new();
 
@@ -54,7 +53,7 @@ namespace ShoppingList4F1.Models
                 products.Add(product);
             }
 
-            return products;
+            Products = products;
         }
     }
 }

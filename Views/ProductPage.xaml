@@ -4,19 +4,26 @@
              x:Class="ShoppingList4F1.Views.ProductPage"
              Title="Product">
     <VerticalStackLayout>
-        <Label 
+        <Editor 
+            x:Name="NameEditor"
+            Placeholder="Enter name of the product"
             Text="{Binding Name}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-        <Label 
+        <Editor 
+            x:Name="TypeOfMeasurementEditor"
+            Placeholder="Enter the type of measurement of the product"
             Text="{Binding TypeOfMeasurement}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-        <Label 
+        <Editor 
+            x:Name="QuantityEditor"
+            Placeholder="Enter quantity of the product"
             Text="{Binding Quantity}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-        <CheckBox 
-            IsChecked="{Binding IsBought}" />
+        <Button 
+            Text="Save"
+            Clicked="SaveButton_Clicked" />
     </VerticalStackLayout>
 </ContentPage>

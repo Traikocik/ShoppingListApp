@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingList4F1.Models
 {
-    internal class Product
+    public class Product
     {
         public string Name;
         public string TypeOfMeasurement;
