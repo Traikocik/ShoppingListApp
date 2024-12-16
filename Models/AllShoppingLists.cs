@@ -32,7 +32,7 @@ namespace ShoppingList4F1.Models
                 foreach (var shoppingListElement in doc.Root.Elements("ShoppingList"))
                 {
                     string id = shoppingListElement.Attribute("Id").Value;
-                    string name = shoppingListElement.Element("Name").Value;
+                    string name = shoppingListElement.Attribute("Name").Value;
                     ShoppingList shoppingList = new ShoppingList(id, name);
                     shoppingList.SetCategoriesFromElement(shoppingListElement.Element("Categories"));
                     ShoppingLists.Add(shoppingList);

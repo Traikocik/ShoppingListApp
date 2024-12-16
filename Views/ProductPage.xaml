@@ -6,7 +6,7 @@
     <VerticalStackLayout>
         <Editor 
             x:Name="NameEditor"
-            Placeholder="Enter name of the product"
+            Placeholder="Enter the name of the product"
             Text="{Binding Name}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
@@ -18,14 +18,15 @@
             HorizontalOptions="Center" />
         <Editor 
             x:Name="QuantityEditor"
-            Placeholder="Enter quantity of the product"
+            Placeholder="Enter the quantity of the product"
             Text="{Binding Quantity}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Picker x:Name="CategoryPicker"
-                Title="Select Category"
+                Title="Pick category"
                 ItemsSource="{Binding Categories}"
-                ItemDisplayBinding="{Binding Name}" />
+                ItemDisplayBinding="{Binding Name}"
+                SelectedIndexChanged="CategoryPicker_SelectedIndexChanged"/>
         <Button 
             Text="Save"
             Clicked="SaveButton_Clicked" />

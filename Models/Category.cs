@@ -46,7 +46,7 @@ namespace ShoppingList4F1.Models
             Products = products;
         }
 
-        public XElement GetElementFromCategories()
+        public XElement GetElementFromProducts()
         {
             var productsElement = new XElement("Products");
 

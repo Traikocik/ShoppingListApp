@@ -7,7 +7,8 @@ namespace ShoppingList4F1.Views;
 
 public partial class ProductView : ContentView
 {
-    public Models.ShoppingList CurrentShoppingList { get; set; }
+    //public Models.ShoppingList CurrentShoppingList { get; set; }
+    public Models.Category CurrentCategory { get; set; }
 
     public ProductView()
     {
@@ -24,11 +25,11 @@ public partial class ProductView : ContentView
 
         if (sender is CheckBox checkBox && checkBox.BindingContext is Models.Product changedProduct)
         {
-            var currentProduct = CurrentShoppingList.Products.FirstOrDefault(p => p.Id == changedProduct.Id);
+            var currentProduct = CurrentCategory.Products.FirstOrDefault(p => p.Id == changedProduct.Id);
             if (currentProduct != null)
             {
                 currentProduct.IsBought = e.Value;
-                CurrentShoppingList.Products = new ObservableCollection<Models.Product>(CurrentShoppingList.Products.OrderBy(p => p.IsBought));
+                CurrentCategory.Products = new ObservableCollection<Models.Product>(CurrentCategory.Products.OrderBy(p => p.IsBought));
                 Models.AllShoppingLists.SaveShoppingLists();
             }
         }
@@ -38,7 +39,7 @@ public partial class ProductView : ContentView
     {
         if (sender is ImageButton imageButton && imageButton.BindingContext is Models.Product changedProduct)
         {
-            var currentProduct = CurrentShoppingList.Products.FirstOrDefault(p => p.Id == changedProduct.Id);
+            var currentProduct = CurrentCategory.Products.FirstOrDefault(p => p.Id == changedProduct.Id);
             if (currentProduct != null)
             {
                 currentProduct.Quantity++;
@@ -51,7 +52,7 @@ public partial class ProductView : ContentView
     {
         if (sender is ImageButton imageButton && imageButton.BindingContext is Models.Product changedProduct)
         {
-            var currentProduct = CurrentShoppingList.Products.FirstOrDefault(p => p.Id == changedProduct.Id);
+            var currentProduct = CurrentCategory.Products.FirstOrDefault(p => p.Id == changedProduct.Id);
             if (currentProduct != null)
             {
                 currentProduct.Quantity--;
@@ -64,7 +65,7 @@ public partial class ProductView : ContentView
     {
         if (sender is ImageButton imageButton && imageButton.BindingContext is Models.Product productToBeDeleted)
         {
-            CurrentShoppingList.Products.Remove(productToBeDeleted);
+            CurrentCategory.Products.Remove(productToBeDeleted);
             Models.AllShoppingLists.SaveShoppingLists();
         }
     }

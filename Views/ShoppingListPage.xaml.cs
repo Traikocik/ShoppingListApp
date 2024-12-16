@@ -10,6 +10,22 @@ public partial class ShoppingListPage : ContentPage
         BindingContext = new Models.ShoppingList();
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        var shoppingList = (Models.ShoppingList)BindingContext;
+
+        categoriesCollection.ItemTemplate = new DataTemplate(() =>
+        {
+            var categoryView = new CategoryView();
+            categoryView.SetBinding(BindingContextProperty, ".");
+            return categoryView;
+        });
+
+        categoriesCollection.ItemsSource = shoppingList.Categories;
+    }
+
     //protected override void OnAppearing()
     //{
     //    base.OnAppearing();
@@ -17,14 +33,14 @@ public partial class ShoppingListPage : ContentPage
 
     //    var shoppingList = (Models.ShoppingList)BindingContext;
 
-    //    productsCollection.ItemTemplate = new DataTemplate(() =>
+    //    categoriesCollection.ItemTemplate = new DataTemplate(() =>
     //    {
-    //        var productView = new ProductView { CurrentShoppingList = shoppingList };
-    //        productView.SetBinding(BindingContextProperty, ".");
-    //        return productView;
+    //        var categoryView = new CategoryView { CurrentShoppingList = shoppingList };
+    //        categoryView.SetBinding(BindingContextProperty, ".");
+    //        return categoryView;
     //    });
 
-    //    productsCollection.ItemsSource = shoppingList.Products;
+    //    categoriesCollection.ItemsSource = shoppingList.Categories;
     //}
 
     public ShoppingListPage(Models.ShoppingList shoppingList)

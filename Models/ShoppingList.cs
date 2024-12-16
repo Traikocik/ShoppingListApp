@@ -54,7 +54,7 @@ namespace ShoppingList4F1.Models
 
             foreach (var category in Categories)
             {
-                XElement productsElement = new XElement(category.GetElementFromCategories());
+                XElement productsElement = new XElement(category.GetElementFromProducts());
                 var categoryElement = new XElement("Category",
                     new XAttribute("Id", category.Id),
                     new XAttribute("Name", category.Name),
