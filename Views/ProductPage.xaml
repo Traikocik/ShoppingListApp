@@ -22,11 +22,14 @@
             Text="{Binding Quantity}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <CheckBox x:Name="IsOptionalCheckBox"
+                  IsChecked="{Binding IsOptional}" />
+        <Label Margin="5" Text="Optional" />
         <Picker x:Name="CategoryPicker"
                 Title="Pick category"
                 ItemsSource="{Binding Categories}"
                 ItemDisplayBinding="{Binding Name}"
-                SelectedIndexChanged="CategoryPicker_SelectedIndexChanged"/>
+                SelectedIndexChanged="CategoryPicker_SelectedIndexChanged" />
         <Button 
             Text="Save"
             Clicked="SaveButton_Clicked" />

@@ -23,19 +23,6 @@ public partial class ProductView : ContentView
     public ProductView()
     {
         InitializeComponent();
-        var layout = this.Content as StackLayout;
-
-        if (layout != null && BindingContext is Models.Product product)
-        {
-            if (product.IsOptional)
-            {
-                layout.BackgroundColor = Colors.Yellow;
-            }
-            else
-            {
-                layout.BackgroundColor = Colors.Transparent;
-            }
-        }
     }
 
     //private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -50,7 +37,7 @@ public partial class ProductView : ContentView
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         if (BindingContext is not Models.Product product || ParentCategory == null) return;
-
+        product.IsBought = e.Value;
         ParentCategory.Products.Remove(product);
         if (e.Value)
         {
@@ -62,6 +49,7 @@ public partial class ProductView : ContentView
             ParentCategory.Products.Insert(0, product);
             ((StackLayout)((CheckBox)sender).Parent).BackgroundColor = Colors.Transparent;
         }
+        Models.AllShoppingLists.SaveShoppingLists();
     }
 
     private void IncrementButton_Clicked(object sender, EventArgs e)

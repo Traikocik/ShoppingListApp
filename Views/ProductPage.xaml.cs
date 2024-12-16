@@ -22,7 +22,7 @@ public partial class ProductPage : ContentPage
         string name = NameEditor.Text;
         if (string.IsNullOrEmpty(name))
         {
-            await DisplayAlert("WARNIN!G", "Product's name entry is empty! Can't add new product.", "OK");
+            await DisplayAlert("WARNING!", "Product's name entry is empty! Can't add new product.", "OK");
             return;
         }
 
@@ -39,6 +39,8 @@ public partial class ProductPage : ContentPage
             return;
         }
 
+        bool isOptional = IsOptionalCheckBox.IsChecked;
+
         Models.Category selectedCategory = (Models.Category)CategoryPicker.SelectedItem;
         if (selectedCategory == null || selectedCategory.Name == "Add New Category")
         {
@@ -52,7 +54,7 @@ public partial class ProductPage : ContentPage
                 ShoppingList.Categories.Add(new Models.Category(categoryName));
         }
 
-        var newProduct = new Models.Product(name, typeOfMeasurement, quantity);
+        var newProduct = new Models.Product(name, typeOfMeasurement, isOptional, quantity);
         selectedCategory.Products.Add(newProduct);
         Models.AllShoppingLists.SaveShoppingLists();
 
