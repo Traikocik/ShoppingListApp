@@ -7,7 +7,6 @@ namespace ShoppingList4F1.Views;
 
 public partial class ProductView : ContentView
 {
-    //public Models.ShoppingList CurrentShoppingList { get; set; }
     public Models.Category CurrentCategory { get; set; }
 
     public ProductView()
@@ -23,49 +22,55 @@ public partial class ProductView : ContentView
         else
             ((StackLayout)((CheckBox)sender).Parent).BackgroundColor = Color.FromRgb(40, 40, 40);
 
-        if (sender is CheckBox checkBox && checkBox.BindingContext is Models.Product changedProduct)
-        {
-            var currentProduct = CurrentCategory.Products.FirstOrDefault(p => p.Id == changedProduct.Id);
-            if (currentProduct != null)
-            {
-                currentProduct.IsBought = e.Value;
-                CurrentCategory.Products = new ObservableCollection<Models.Product>(CurrentCategory.Products.OrderBy(p => p.IsBought));
-                Models.AllShoppingLists.SaveShoppingLists();
-            }
-        }
+        //if (sender is CheckBox checkBox && checkBox.Parent.Parent.Parent.BindingContext is Models.Category category)
+        //{
+        //    CurrentCategory = category;
+        //    Models.Product currentProduct = CurrentCategory.Products.FirstOrDefault(p => p.Id == ((Models.Product)BindingContext).Id);
+        //    if (currentProduct != null)
+        //    {
+        //        currentProduct.IsBought = e.Value;
+        //        CurrentCategory.Products = new ObservableCollection<Models.Product>(CurrentCategory.Products.OrderBy(p => p.IsBought));
+        //        Models.AllShoppingLists.SaveShoppingLists();
+        //    }
+        //}
     }
 
-    private void IncrementButton_Clicked(object sender, EventArgs e)
+    private async void IncrementButton_Clicked(object sender, EventArgs e)
     {
-        if (sender is ImageButton imageButton && imageButton.BindingContext is Models.Product changedProduct)
+        if (sender is ImageButton imageButton && imageButton.Parent.Parent.Parent.BindingContext is Models.Category category)
         {
-            var currentProduct = CurrentCategory.Products.FirstOrDefault(p => p.Id == changedProduct.Id);
+            CurrentCategory = category;
+            var currentProduct = CurrentCategory.Products.FirstOrDefault(p => p.Id == ((Models.Product)BindingContext).Id);
             if (currentProduct != null)
             {
                 currentProduct.Quantity++;
                 Models.AllShoppingLists.SaveShoppingLists();
+                await Shell.Current.GoToAsync("..");
             }
         }
     }
 
-    private void DecrementButton_Clicked(object sender, EventArgs e)
+    private async void DecrementButton_Clicked(object sender, EventArgs e)
     {
-        if (sender is ImageButton imageButton && imageButton.BindingContext is Models.Product changedProduct)
+        if (sender is ImageButton imageButton && imageButton.Parent.Parent.Parent.BindingContext is Models.Category category)
         {
-            var currentProduct = CurrentCategory.Products.FirstOrDefault(p => p.Id == changedProduct.Id);
+            CurrentCategory = category;
+            var currentProduct = CurrentCategory.Products.FirstOrDefault(p => p.Id == ((Models.Product)BindingContext).Id);
             if (currentProduct != null)
             {
                 currentProduct.Quantity--;
                 Models.AllShoppingLists.SaveShoppingLists();
+                await Shell.Current.GoToAsync("..");
             }
         }
     }
 
     private void RemoveButton_Clicked(object sender, EventArgs e)
     {
-        if (sender is ImageButton imageButton && imageButton.BindingContext is Models.Product productToBeDeleted)
+        if (sender is ImageButton imageButton && imageButton.Parent.Parent.Parent.BindingContext is Models.Category category)
         {
-            CurrentCategory.Products.Remove(productToBeDeleted);
+            CurrentCategory = category;
+            CurrentCategory.Products.Remove((Models.Product)BindingContext);
             Models.AllShoppingLists.SaveShoppingLists();
         }
     }
