@@ -10,7 +10,8 @@
         </CollectionView.ItemsLayout>
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <views:ProductView BindingContext="{Binding}" />
+                <views:ProductView BindingContext="{Binding}" 
+                                   ParentCategory="{Binding Source={RelativeSource AncestorType={x:Type views:CategoryView}}, Path=BindingContext}"/>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>

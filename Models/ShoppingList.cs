@@ -11,7 +11,6 @@ namespace ShoppingList4F1.Models
     public class ShoppingList
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        //public ObservableCollection<Product> Products { get; set; } = new();
         public ObservableCollection<Category> Categories { get; set; } = new();
         public string Name { get; set; }
 

@@ -29,7 +29,6 @@ public partial class AllShoppingListsPage : ContentPage
 
     private async void AddShoppingList_Clicked(object sender, EventArgs e)
     {
-        //await Shell.Current.GoToAsync(nameof(CreateShoppingListPage));
         await Navigation.PushAsync(new CreateShoppingListPage());
     }
 

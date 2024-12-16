@@ -7,70 +7,86 @@ namespace ShoppingList4F1.Views;
 
 public partial class ProductView : ContentView
 {
-    public Models.Category CurrentCategory { get; set; }
+    public static readonly BindableProperty ParentCategoryProperty =
+            BindableProperty.Create(
+                nameof(ParentCategory),
+                typeof(Models.Category),
+                typeof(ProductView),
+                default(Models.Category));
+
+    public Models.Category ParentCategory
+    {
+        get => (Models.Category)GetValue(ParentCategoryProperty);
+        set => SetValue(ParentCategoryProperty, value);
+    }
 
     public ProductView()
     {
         InitializeComponent();
-        BindingContext = new Models.Product();
-    }
+        var layout = this.Content as StackLayout;
 
-    private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
-    {
-        if (e.Value)
-            ((StackLayout)((CheckBox)sender).Parent).BackgroundColor = Color.FromRgb(100, 100, 100);
-        else
-            ((StackLayout)((CheckBox)sender).Parent).BackgroundColor = Color.FromRgb(40, 40, 40);
-
-        //if (sender is CheckBox checkBox && checkBox.Parent.Parent.Parent.BindingContext is Models.Category category)
-        //{
-        //    CurrentCategory = category;
-        //    Models.Product currentProduct = CurrentCategory.Products.FirstOrDefault(p => p.Id == ((Models.Product)BindingContext).Id);
-        //    if (currentProduct != null)
-        //    {
-        //        currentProduct.IsBought = e.Value;
-        //        CurrentCategory.Products = new ObservableCollection<Models.Product>(CurrentCategory.Products.OrderBy(p => p.IsBought));
-        //        Models.AllShoppingLists.SaveShoppingLists();
-        //    }
-        //}
-    }
-
-    private async void IncrementButton_Clicked(object sender, EventArgs e)
-    {
-        if (sender is ImageButton imageButton && imageButton.Parent.Parent.Parent.BindingContext is Models.Category category)
+        if (layout != null && BindingContext is Models.Product product)
         {
-            CurrentCategory = category;
-            var currentProduct = CurrentCategory.Products.FirstOrDefault(p => p.Id == ((Models.Product)BindingContext).Id);
-            if (currentProduct != null)
+            if (product.IsOptional)
             {
-                currentProduct.Quantity++;
-                Models.AllShoppingLists.SaveShoppingLists();
-                await Shell.Current.GoToAsync("..");
+                layout.BackgroundColor = Colors.Yellow;
+            }
+            else
+            {
+                layout.BackgroundColor = Colors.Transparent;
             }
         }
     }
 
-    private async void DecrementButton_Clicked(object sender, EventArgs e)
+    //private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    //{
+    //    if (e.Value)
+    //        ((StackLayout)((CheckBox)sender).Parent).BackgroundColor = Color.FromRgb(100, 100, 100);
+    //    else
+    //        ((StackLayout)((CheckBox)sender).Parent).BackgroundColor = Color.FromRgb(40, 40, 40);
+
+    //}
+
+    private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        if (sender is ImageButton imageButton && imageButton.Parent.Parent.Parent.BindingContext is Models.Category category)
+        if (BindingContext is not Models.Product product || ParentCategory == null) return;
+
+        ParentCategory.Products.Remove(product);
+        if (e.Value)
         {
-            CurrentCategory = category;
-            var currentProduct = CurrentCategory.Products.FirstOrDefault(p => p.Id == ((Models.Product)BindingContext).Id);
-            if (currentProduct != null)
-            {
-                currentProduct.Quantity--;
-                Models.AllShoppingLists.SaveShoppingLists();
-                await Shell.Current.GoToAsync("..");
-            }
+            ParentCategory.Products.Add(product);
+            ((StackLayout)((CheckBox)sender).Parent).BackgroundColor = Colors.Gray;
+        }
+        else
+        {
+            ParentCategory.Products.Insert(0, product);
+            ((StackLayout)((CheckBox)sender).Parent).BackgroundColor = Colors.Transparent;
+        }
+    }
+
+    private void IncrementButton_Clicked(object sender, EventArgs e)
+    {
+        if (BindingContext is Models.Product product)
+        {
+            product.Quantity++;
+            Models.AllShoppingLists.SaveShoppingLists();
+        }
+    }
+
+    private void DecrementButton_Clicked(object sender, EventArgs e)
+    {
+        if (BindingContext is Models.Product product && product.Quantity > 0)
+        {
+            product.Quantity--;
+            Models.AllShoppingLists.SaveShoppingLists();
         }
     }
 
     private void RemoveButton_Clicked(object sender, EventArgs e)
     {
-        if (sender is ImageButton imageButton && imageButton.Parent.Parent.Parent.BindingContext is Models.Category category)
+        if (BindingContext is Models.Product product)
         {
-            CurrentCategory = category;
-            CurrentCategory.Products.Remove((Models.Product)BindingContext);
+            ParentCategory.Products.Remove(product);
             Models.AllShoppingLists.SaveShoppingLists();
         }
     }

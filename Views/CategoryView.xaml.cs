@@ -5,6 +5,5 @@ public partial class CategoryView : ContentView
     public CategoryView()
 	{
 		InitializeComponent();
-        BindingContext = new Models.Category();
     }
 }
