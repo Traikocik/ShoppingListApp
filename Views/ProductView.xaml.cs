@@ -23,23 +23,56 @@ public partial class ProductView : ContentView
     public ProductView()
     {
         InitializeComponent();
+
+        BindingContextChanged += OnBindingContextChanged;
+    }
+
+    private void OnBindingContextChanged(object sender, EventArgs e)
+    {
+        if (BindingContext is Models.Product product)
+        {
+            StackLayout stackLayout = (StackLayout)Children[0];
+            stackLayout.BackgroundColor = Colors.Transparent;
+
+            if (product.IsOptional)
+                stackLayout.BackgroundColor = Colors.DarkGoldenrod;
+
+            if (product.IsBought)
+                stackLayout.BackgroundColor = Colors.Gray;
+            
+            Models.AllShoppingLists.SaveShoppingLists();
+        }
     }
 
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         if (BindingContext is not Models.Product product || ParentCategory == null) return;
+
         product.IsBought = e.Value;
-        ParentCategory.Products.Remove(product);
-        if (e.Value)
+
+        StackLayout stackLayout = (StackLayout)Children[0];
+        stackLayout.BackgroundColor = Colors.Transparent;
+
+        if (product.IsOptional)
+            stackLayout.BackgroundColor = Colors.DarkGoldenrod;
+
+        if (product.IsBought)
+            stackLayout.BackgroundColor = Colors.Gray;
+
+        if (ParentCategory != null)
         {
-            ParentCategory.Products.Add(product);
-            ((StackLayout)((CheckBox)sender).Parent).BackgroundColor = Colors.Gray;
+            var sortedProducts = ParentCategory.Products
+                .OrderBy(p => p.IsBought)
+                .ThenBy(p => p.Id)
+                .ToList();
+
+            ParentCategory.Products.Clear();
+            foreach (var sortedProduct in sortedProducts)
+            {
+                ParentCategory.Products.Add(sortedProduct);
+            }
         }
-        else
-        {
-            ParentCategory.Products.Insert(0, product);
-            ((StackLayout)((CheckBox)sender).Parent).BackgroundColor = Colors.Transparent;
-        }
+
         Models.AllShoppingLists.SaveShoppingLists();
     }
 

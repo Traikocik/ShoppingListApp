@@ -10,7 +10,7 @@
                      IconImageSource="{FontImage Glyph='+', Color=Black, Size=20}" />
         <ToolbarItem Text="Filter by not bought" 
                      Clicked="FilterByNotBought_Clicked" 
-                     IconImageSource="{FontImage Glyph='📌💰', Color=Black, Size=20}" />
+                     IconImageSource="{FontImage Glyph='📌', Color=Black, Size=20}" />
         <ToolbarItem Text="Filter by shop" 
                      Clicked="FilterByShop_Clicked" 
                      IconImageSource="{FontImage Glyph='🛒', Color=Black, Size=20}" />
