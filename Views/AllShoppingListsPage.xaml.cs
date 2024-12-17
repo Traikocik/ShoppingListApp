@@ -66,19 +66,24 @@ public partial class AllShoppingListsPage : ContentPage
                 string id = doc.Root.Attribute("Id").Value;
                 string name = doc.Root.Attribute("Name").Value;
 
-                if (id != null && name != null)
+                if (Models.AllShoppingLists.ShoppingLists.Any(sl => sl.Id == id))
                 {
-                    Models.ShoppingList shoppingList = new Models.ShoppingList(id, name);
-                    shoppingList.SetCategoriesFromElement(doc.Root.Element("Categories"));
-                    Models.AllShoppingLists.ShoppingLists.Add(shoppingList);
-                    Models.AllShoppingLists.SaveShoppingLists();
-
-                    await DisplayAlert("SUCCESS", "Shopping list imported", "OK");
+                    await DisplayAlert("ERROR", $"Shopping List with ID: '{id}' already exists.", "OK");
+                    return;
                 }
-                else
+
+                if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(name))
                 {
                     await DisplayAlert("ERROR", "Couldn't add new Shopping List, not sufficient data.", "OK");
+                    return;
                 }
+
+                Models.ShoppingList shoppingList = new Models.ShoppingList(id, name);
+                shoppingList.SetCategoriesFromElement(doc.Root.Element("Categories"));
+                Models.AllShoppingLists.ShoppingLists.Add(shoppingList);
+                Models.AllShoppingLists.SaveShoppingLists();
+
+                await DisplayAlert("SUCCESS", "Shopping list imported", "OK");
             }
         }
         catch (Exception ex)
