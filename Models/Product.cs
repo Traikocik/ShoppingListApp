@@ -28,6 +28,7 @@ namespace ShoppingList4F1.Models
                 }
             }
         }
+        public string ShopId { get; set; }
         
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
@@ -42,16 +43,6 @@ namespace ShoppingList4F1.Models
             IsOptional = false;
         }
 
-        public Product(string name, string typeOfMeasurement, double quantity)
-        {
-            Id = Guid.NewGuid().ToString();
-            Name = name;
-            TypeOfMeasurement = typeOfMeasurement;
-            IsBought = false;
-            IsOptional= false;
-            Quantity = quantity;
-        }
-
         public Product(string name, string typeOfMeasurement, bool isOptional, double quantity)
         {
             Id = Guid.NewGuid().ToString();
@@ -62,7 +53,7 @@ namespace ShoppingList4F1.Models
             Quantity = quantity;
         }
 
-        public Product(string id, string name, string typeOfMeasurement, bool isBought, bool isOptional, double quantity)
+        public Product(string id, string name, string typeOfMeasurement, bool isBought, bool isOptional, double quantity, string shopId)
         {
             Id = id;
             Name = name;
@@ -70,6 +61,7 @@ namespace ShoppingList4F1.Models
             IsBought = isBought;
             IsOptional = isOptional;
             Quantity = quantity;
+            ShopId = shopId;
         }
     }
 }

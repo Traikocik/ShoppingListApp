@@ -4,34 +4,36 @@
              x:Class="ShoppingList4F1.Views.ProductPage"
              Title="Product">
     <VerticalStackLayout>
-        <Editor 
-            x:Name="NameEditor"
-            Placeholder="Enter the name of the product"
-            Text="{Binding Name}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <Editor 
-            x:Name="TypeOfMeasurementEditor"
-            Placeholder="Enter the type of measurement of the product"
-            Text="{Binding TypeOfMeasurement}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <Editor 
-            x:Name="QuantityEditor"
-            Placeholder="Enter the quantity of the product"
-            Text="{Binding Quantity}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Editor x:Name="NameEditor"
+                Placeholder="Enter the name of the product"
+                Text="{Binding Name}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+        <Editor x:Name="TypeOfMeasurementEditor"
+                Placeholder="Enter the type of measurement of the product"
+                Text="{Binding TypeOfMeasurement}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+        <Editor x:Name="QuantityEditor"
+                Placeholder="Enter the quantity of the product"
+                Text="{Binding Quantity}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
         <CheckBox x:Name="IsOptionalCheckBox"
                   IsChecked="{Binding IsOptional}" />
-        <Label Margin="5" Text="Optional" />
+        <Label Margin="5" 
+               Text="Optional" />
         <Picker x:Name="CategoryPicker"
                 Title="Pick category"
                 ItemsSource="{Binding Categories}"
                 ItemDisplayBinding="{Binding Name}"
                 SelectedIndexChanged="CategoryPicker_SelectedIndexChanged" />
-        <Button 
-            Text="Save"
-            Clicked="SaveButton_Clicked" />
+        <Picker x:Name="ShopPicker"
+                Title="Pick shop"
+                ItemsSource="{Binding Shops}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedIndexChanged="ShopPicker_SelectedIndexChanged" />
+        <Button Text="Save"
+                Clicked="SaveButton_Clicked" />
     </VerticalStackLayout>
 </ContentPage>

@@ -4,21 +4,30 @@
              x:Class="ShoppingList4F1.Views.AllShoppingListsPage"
              Title="All Shopping Lists">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add Shopping List" Clicked="AddShoppingList_Clicked" IconImageSource="{FontImage Glyph='+', Color=Black, Size=20}" />
-        <ToolbarItem Text="Import Shopping List" Clicked="ImportShoppingList_Clicked" IconImageSource="{FontImage Glyph='📥', Color=Black, Size=20}" />
+        <ToolbarItem Text="Add Shopping List" 
+                     Clicked="AddShoppingList_Clicked" 
+                     IconImageSource="{FontImage Glyph='+', Color=Black, Size=20}" />
+        <ToolbarItem Text="Import Shopping List" 
+                     Clicked="ImportShoppingList_Clicked" 
+                     IconImageSource="{FontImage Glyph='📥', Color=Black, Size=20}" />
     </ContentPage.ToolbarItems>
     <CollectionView x:Name="shoppingListsCollection"
                     ItemsSource="{Binding ShoppingLists}"
                     SelectionMode="Single"
                     SelectionChanged="shoppingListsCollection_SelectionChanged">
         <CollectionView.ItemsLayout>
-            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+            <LinearItemsLayout Orientation="Vertical" 
+                               ItemSpacing="10"/>
         </CollectionView.ItemsLayout>
         <CollectionView.ItemTemplate>
             <DataTemplate>
                 <StackLayout>
                     <Label Text="{Binding Name}"/>
-                    <ImageButton WidthRequest="20" HeightRequest="20" Background="Transparent" Source="remove.png" Clicked="RemoveButton_Clicked"/>
+                    <ImageButton WidthRequest="20" 
+                                 HeightRequest="20" 
+                                 Background="Transparent" 
+                                 Source="remove.png" 
+                                 Clicked="RemoveButton_Clicked"/>
                 </StackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>

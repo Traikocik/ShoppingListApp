@@ -13,6 +13,7 @@ namespace ShoppingList4F1.Models
     public class AllShoppingLists
     {
         public static ObservableCollection<ShoppingList> ShoppingLists { get; set; } = new();
+        public static ObservableCollection<Shop> Shops { get; set; } = new ObservableCollection<Shop>();
         private static string FileName;
 
         public AllShoppingLists()
@@ -26,8 +27,20 @@ namespace ShoppingList4F1.Models
             if (File.Exists(FileName))
             {
                 ShoppingLists.Clear();
+                Shops.Clear();
 
                 var doc = XDocument.Load(FileName);
+
+                var shopsElement = doc.Root.Element("Shops");
+                if (shopsElement != null)
+                {
+                    foreach (var shopElement in shopsElement.Elements("Shop"))
+                    {
+                        string id = shopElement.Attribute("Id").Value;
+                        string name = shopElement.Attribute("Name").Value;
+                        Shops.Add(new Shop(id, name));
+                    }
+                }
 
                 foreach (var shoppingListElement in doc.Root.Elements("ShoppingList"))
                 {
@@ -43,6 +56,16 @@ namespace ShoppingList4F1.Models
         public static void SaveShoppingLists()
         {
             var rootElement = new XElement("ShoppingLists");
+
+            var shopsElement = new XElement("Shops");
+            foreach (var shop in Shops)
+            {
+                var shopElement = new XElement("Shop",
+                    new XAttribute("Id", shop.Id),
+                    new XAttribute("Name", shop.Name));
+                shopsElement.Add(shopElement);
+            }
+            rootElement.Add(shopsElement);
 
             foreach (var shoppingList in ShoppingLists)
             {

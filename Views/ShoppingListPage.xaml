@@ -5,8 +5,20 @@
              x:Class="ShoppingList4F1.Views.ShoppingListPage"
              Title="Shopping List">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add Product" Clicked="AddProduct_Clicked" IconImageSource="{FontImage Glyph='+', Color=Black, Size=20}" />
-        <ToolbarItem Text="Export Shopping List" Clicked="ExportShoppingList_Clicked" IconImageSource="{FontImage Glyph='📤', Color=Black, Size=20}" />
+        <ToolbarItem Text="Add Product" 
+                     Clicked="AddProduct_Clicked" 
+                     IconImageSource="{FontImage Glyph='+', Color=Black, Size=20}" />
+        <ToolbarItem Text="Filter by Shop" 
+                     Clicked="FilterByShop_Clicked" 
+                     IconImageSource="{FontImage Glyph='🛒', Color=Black, Size=20}" />
+        <ToolbarItem Text="Reset Filter" 
+                     Clicked="ResetFilterButton_Clicked" 
+                     IsEnabled="False" 
+                     IconImageSource="{FontImage Glyph='⟳', Color=Black, Size=20}"
+                     x:Name="resetButton"  />
+        <ToolbarItem Text="Export Shopping List" 
+                     Clicked="ExportShoppingList_Clicked" 
+                     IconImageSource="{FontImage Glyph='📤', Color=Black, Size=20}" />
     </ContentPage.ToolbarItems>
     <CollectionView x:Name="categoriesCollection"
                     ItemsSource="{Binding Categories}">

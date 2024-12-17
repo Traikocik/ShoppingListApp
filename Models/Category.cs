@@ -39,8 +39,9 @@ namespace ShoppingList4F1.Models
                 bool isBought = bool.Parse(productElement.Attribute("IsBought").Value);
                 bool isOptional = bool.Parse(productElement.Attribute("IsOptional").Value);
                 int quantity = int.Parse(productElement.Attribute("Quantity").Value);
+                string shopId = productElement.Attribute("ShopId").Value;
 
-                Product product = new Product(id, name, typeOfMeasurement, isBought, isOptional, quantity);
+                Product product = new Product(id, name, typeOfMeasurement, isBought, isOptional, quantity, shopId);
                 products.Add(product);
             }
 
@@ -59,7 +60,8 @@ namespace ShoppingList4F1.Models
                     new XAttribute("TypeOfMeasurement", product.TypeOfMeasurement),
                     new XAttribute("IsBought", product.IsBought),
                     new XAttribute("IsOptional", product.IsOptional),
-                    new XAttribute("Quantity", product.Quantity));
+                    new XAttribute("Quantity", product.Quantity),
+                    new XAttribute("ShopId", product.ShopId ?? string.Empty));
 
                 productsElement.Add(productElement);
             }
