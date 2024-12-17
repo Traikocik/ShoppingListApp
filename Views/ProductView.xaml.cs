@@ -87,7 +87,7 @@ public partial class ProductView : ContentView
 
     private void DecrementButton_Clicked(object sender, EventArgs e)
     {
-        if (BindingContext is Models.Product product && product.Quantity > 0)
+        if (BindingContext is Models.Product product && product.Quantity > 1)
         {
             product.Quantity--;
             Models.AllShoppingLists.SaveShoppingLists();
