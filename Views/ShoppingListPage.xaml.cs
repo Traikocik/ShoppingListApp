@@ -23,6 +23,20 @@ public partial class ShoppingListPage : ContentPage
         await Navigation.PushAsync(new ProductPage((Models.ShoppingList)BindingContext));
     }
 
+    private void FilterByNotBought_Clicked(object sender, EventArgs e)
+    {
+        List<Models.Category> categoriesWithNotBoughtProduct = ((Models.ShoppingList)BindingContext).Categories
+            .Select(category => new Models.Category(category.Id, category.Name)
+            {
+                Products = new ObservableCollection<Models.Product>(category.Products.Where(product => product.IsBought == false))
+            })
+            .Where(category => category.Products.Any())
+            .ToList();
+
+        categoriesCollection.ItemsSource = categoriesWithNotBoughtProduct;
+        resetButton.IsEnabled = true;
+    }
+
     private async void FilterByShop_Clicked(object sender, EventArgs e)
     {
         string[] shopNames = Models.AllShoppingLists.Shops.Select(shop => shop.Name).ToArray();
