@@ -25,22 +25,29 @@ public partial class ShoppingListPage : ContentPage
 
     private async void ExportShoppingList_Clicked(object sender, EventArgs e)
     {
-        Models.ShoppingList currentShoppingList = (Models.ShoppingList)BindingContext;
-        var doc = new XDocument(
-            new XElement("ShoppingList",
-                new XAttribute("Id", currentShoppingList.Id),
-                new XAttribute("Name", currentShoppingList.Name),
-                currentShoppingList.GetElementFromCategories()
-            )
-        );
-
-        var folderResult = await FolderPicker.Default.PickAsync();
-
-        if (folderResult != null && folderResult.Exception == null)
+        try
         {
-            var filePath = Path.Combine(folderResult.Folder.Path, $"{currentShoppingList.Name}.xml");
-            doc.Save(filePath);
-            await DisplayAlert("SUCCESS", $"Shopping list exported to: {filePath}", "OK");
+            Models.ShoppingList currentShoppingList = (Models.ShoppingList)BindingContext;
+            var doc = new XDocument(
+                new XElement("ShoppingList",
+                    new XAttribute("Id", currentShoppingList.Id),
+                    new XAttribute("Name", currentShoppingList.Name),
+                    currentShoppingList.GetElementFromCategories()
+                )
+            );
+
+            var folderResult = await FolderPicker.Default.PickAsync();
+
+            if (folderResult != null && folderResult.Exception == null)
+            {
+                var filePath = Path.Combine(folderResult.Folder.Path, $"{currentShoppingList.Name}.xml");
+                doc.Save(filePath);
+                await DisplayAlert("SUCCESS", $"Shopping list exported to: {filePath}", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("ERROR", "An error occured while exporting from file: " + ex.Message, "OK");
         }
     }
 }
