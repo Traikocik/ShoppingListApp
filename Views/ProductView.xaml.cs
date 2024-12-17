@@ -25,15 +25,6 @@ public partial class ProductView : ContentView
         InitializeComponent();
     }
 
-    //private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
-    //{
-    //    if (e.Value)
-    //        ((StackLayout)((CheckBox)sender).Parent).BackgroundColor = Color.FromRgb(100, 100, 100);
-    //    else
-    //        ((StackLayout)((CheckBox)sender).Parent).BackgroundColor = Color.FromRgb(40, 40, 40);
-
-    //}
-
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         if (BindingContext is not Models.Product product || ParentCategory == null) return;

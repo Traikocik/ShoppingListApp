@@ -6,6 +6,7 @@
              Title="Shopping List">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add Product" Clicked="AddProduct_Clicked" IconImageSource="{FontImage Glyph='+', Color=Black, Size=20}" />
+        <ToolbarItem Text="Export Shopping List" Clicked="ExportShoppingList_Clicked" IconImageSource="{FontImage Glyph='📤', Color=Black, Size=20}" />
     </ContentPage.ToolbarItems>
     <CollectionView x:Name="categoriesCollection"
                     ItemsSource="{Binding Categories}">
