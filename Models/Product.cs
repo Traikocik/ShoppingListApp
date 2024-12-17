@@ -62,16 +62,6 @@ namespace ShoppingList4F1.Models
             Quantity = quantity;
         }
 
-        public Product(string id, string name, string typeOfMeasurement, bool isBought, double quantity)
-        {
-            Id = id;
-            Name = name;
-            TypeOfMeasurement = typeOfMeasurement;
-            IsBought = isBought;
-            IsOptional = false;
-            Quantity = quantity;
-        }
-
         public Product(string id, string name, string typeOfMeasurement, bool isBought, bool isOptional, double quantity)
         {
             Id = id;
