@@ -6,10 +6,10 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add Shopping List" 
                      Clicked="AddShoppingList_Clicked" 
-                     IconImageSource="{FontImage Glyph='+', Color=Black, Size=20}" />
+                     IconImageSource="{FontImage Glyph='+', Color=White, Size=20}" />
         <ToolbarItem Text="Import Shopping List" 
                      Clicked="ImportShoppingList_Clicked" 
-                     IconImageSource="{FontImage Glyph='📥', Color=Black, Size=20}" />
+                     IconImageSource="{FontImage Glyph='📥', Color=White, Size=20}" />
     </ContentPage.ToolbarItems>
     <CollectionView x:Name="shoppingListsCollection"
                     ItemsSource="{Binding ShoppingLists}"

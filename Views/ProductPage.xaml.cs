@@ -7,6 +7,7 @@ public partial class ProductPage : ContentPage
     private Models.ShoppingList ShoppingList { get; set; }
     public ObservableCollection<Models.Category> Categories { get; set; }
     public ObservableCollection<Models.Shop> Shops { get; set; }
+    private Models.Shop noShop;
 
     public ProductPage(Models.ShoppingList shoppingList)
 	{
@@ -19,7 +20,7 @@ public partial class ProductPage : ContentPage
         CategoryPicker.ItemsSource = Categories;
 
         Shops = new ObservableCollection<Models.Shop>(Models.AllShoppingLists.Shops);
-        Models.Shop noShop = new Models.Shop("") { Name = "-" };
+        noShop = new Models.Shop("") { Name = "-" };
         Shops.Insert(0, noShop);
         Shops.Add(new Models.Shop("Add new shop"));
         ShopPicker.ItemsSource = Shops;
@@ -127,7 +128,7 @@ public partial class ProductPage : ContentPage
             }
             else
             {
-                ShopPicker.SelectedItem = null;
+                ShopPicker.SelectedItem = noShop;
                 await DisplayAlert("WARNING!", "No shop name entered. Can't create new shop.", "OK");
                 return;
             }
