@@ -6,17 +6,49 @@ namespace ShoppingList4F1.Views;
 
 public partial class ShoppingListPage : ContentPage
 {
+    private bool IsFilteringByNotBought = false;
+
     public ShoppingListPage()
     {
         InitializeComponent();
         BindingContext = new Models.ShoppingList();
+
+        categoriesCollection.ItemTemplate = new DataTemplate(() =>
+        {
+            var categoryView = new CategoryView();
+            categoryView.CategoryChanged += CategoryView_CategoryChanged;
+            return categoryView;
+        });
+        //MessagingCenter.Subscribe<ProductView>(this, "ProductCheckedChanged", (sender) =>
+        //{
+        //    if (resetButton.IsEnabled)
+        //        FilterByNotBought_Clicked(null, null);
+        //});
     }
 
     public ShoppingListPage(Models.ShoppingList shoppingList)
     {
         InitializeComponent();
         BindingContext = shoppingList;
+
+        categoriesCollection.ItemTemplate = new DataTemplate(() =>
+        {
+            var categoryView = new CategoryView();
+            categoryView.CategoryChanged += CategoryView_CategoryChanged;
+            return categoryView;
+        });
+        //MessagingCenter.Subscribe<ProductView>(this, "ProductCheckedChanged", (sender) =>
+        //{
+        //    if (resetButton.IsEnabled)
+        //        FilterByNotBought_Clicked(null, null);
+        //});
     }
+
+    //protected override void OnDisappearing()
+    //{
+    //    base.OnDisappearing();
+    //    MessagingCenter.Unsubscribe<ProductView>(this, "ProductCheckedChanged");
+    //}
 
     private async void AddProduct_Clicked(object sender, EventArgs e)
     {
@@ -34,6 +66,7 @@ public partial class ShoppingListPage : ContentPage
             .ToList();
 
         categoriesCollection.ItemsSource = categoriesWithNotBoughtProduct;
+        IsFilteringByNotBought = true;
         resetButton.IsEnabled = true;
     }
 
@@ -62,6 +95,7 @@ public partial class ShoppingListPage : ContentPage
                     .ToList();
 
                 categoriesCollection.ItemsSource = filteredCategories;
+                IsFilteringByNotBought = false;
                 resetButton.IsEnabled = true;
             }
         }
@@ -71,6 +105,7 @@ public partial class ShoppingListPage : ContentPage
     {
         categoriesCollection.ItemsSource = ((Models.ShoppingList)BindingContext).Categories;
         resetButton.IsEnabled = false;
+        IsFilteringByNotBought = false;
     }
 
     private async void ExportShoppingList_Clicked(object sender, EventArgs e)
@@ -98,6 +133,14 @@ public partial class ShoppingListPage : ContentPage
         catch (Exception ex)
         {
             await DisplayAlert("ERROR", "An error occured while exporting from file: " + ex.Message, "OK");
+        }
+    }
+
+    private void CategoryView_CategoryChanged(object sender, EventArgs e)
+    {
+        if (IsFilteringByNotBought)
+        {
+            FilterByNotBought_Clicked(null, null);
         }
     }
 }
