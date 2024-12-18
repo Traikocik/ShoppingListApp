@@ -13,17 +13,17 @@ public partial class ShoppingListPage : ContentPage
         InitializeComponent();
         BindingContext = new Models.ShoppingList();
 
-        categoriesCollection.ItemTemplate = new DataTemplate(() =>
-        {
-            var categoryView = new CategoryView();
-            categoryView.CategoryChanged += CategoryView_CategoryChanged;
-            return categoryView;
-        });
-        //MessagingCenter.Subscribe<ProductView>(this, "ProductCheckedChanged", (sender) =>
+        //categoriesCollection.ItemTemplate = new DataTemplate(() =>
         //{
-        //    if (resetButton.IsEnabled)
-        //        FilterByNotBought_Clicked(null, null);
+        //    var categoryView = new CategoryView();
+        //    categoryView.CategoryChanged += CategoryView_CategoryChanged;
+        //    return categoryView;
         //});
+        MessagingCenter.Subscribe<ProductView>(this, "ProductCheckedChanged", (sender) =>
+        {
+            if (IsFilteringByNotBought)
+                FilterByNotBought_Clicked(null, null);
+        });
     }
 
     public ShoppingListPage(Models.ShoppingList shoppingList)
@@ -31,24 +31,24 @@ public partial class ShoppingListPage : ContentPage
         InitializeComponent();
         BindingContext = shoppingList;
 
-        categoriesCollection.ItemTemplate = new DataTemplate(() =>
-        {
-            var categoryView = new CategoryView();
-            categoryView.CategoryChanged += CategoryView_CategoryChanged;
-            return categoryView;
-        });
-        //MessagingCenter.Subscribe<ProductView>(this, "ProductCheckedChanged", (sender) =>
+        //categoriesCollection.ItemTemplate = new DataTemplate(() =>
         //{
-        //    if (resetButton.IsEnabled)
-        //        FilterByNotBought_Clicked(null, null);
+        //    var categoryView = new CategoryView();
+        //    categoryView.CategoryChanged += CategoryView_CategoryChanged;
+        //    return categoryView;
         //});
+        MessagingCenter.Subscribe<ProductView>(this, "ProductCheckedChanged", (sender) =>
+        {
+            if (IsFilteringByNotBought)
+                FilterByNotBought_Clicked(null, null);
+        });
     }
 
-    //protected override void OnDisappearing()
-    //{
-    //    base.OnDisappearing();
-    //    MessagingCenter.Unsubscribe<ProductView>(this, "ProductCheckedChanged");
-    //}
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        MessagingCenter.Unsubscribe<ProductView>(this, "ProductCheckedChanged");
+    }
 
     private async void AddProduct_Clicked(object sender, EventArgs e)
     {
@@ -65,9 +65,15 @@ public partial class ShoppingListPage : ContentPage
             .Where(category => category.Products.Any())
             .ToList();
 
+        foreach (Models.Category category in categoriesWithNotBoughtProduct)
+        {
+            category.IsCategoryNameVisible = false;
+            category.IsExpanded = true;
+        }
         categoriesCollection.ItemsSource = categoriesWithNotBoughtProduct;
         IsFilteringByNotBought = true;
         resetButton.IsEnabled = true;
+        
     }
 
     private async void FilterByShop_Clicked(object sender, EventArgs e)
@@ -100,7 +106,7 @@ public partial class ShoppingListPage : ContentPage
             }
         }
     }
-
+    
     private void ResetFilterButton_Clicked(object sender, EventArgs e)
     {
         categoriesCollection.ItemsSource = ((Models.ShoppingList)BindingContext).Categories;
@@ -136,11 +142,24 @@ public partial class ShoppingListPage : ContentPage
         }
     }
 
-    private void CategoryView_CategoryChanged(object sender, EventArgs e)
+    private void OnCategoryTapped(object sender, EventArgs e)
     {
-        if (IsFilteringByNotBought)
+        Label label = sender as Label;
+        if (label != null)
         {
-            FilterByNotBought_Clicked(null, null);
+            Models.Category category = label.BindingContext as Models.Category;
+            if (category != null)
+            {
+                category.IsExpanded = !category.IsExpanded;
+            }
         }
     }
+
+    //private void CategoryView_CategoryChanged(object sender, EventArgs e)
+    //{
+    //    if (IsFilteringByNotBought)
+    //    {
+    //        FilterByNotBought_Clicked(null, null);
+    //    }
+    //}
 }

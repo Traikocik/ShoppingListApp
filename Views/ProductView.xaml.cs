@@ -7,7 +7,7 @@ namespace ShoppingList4F1.Views;
 
 public partial class ProductView : ContentView
 {
-    public event EventHandler<bool> ProductCheckedChanged;
+    //public event EventHandler<bool> ProductCheckedChanged;
 
     public static readonly BindableProperty ParentCategoryProperty =
             BindableProperty.Create(
@@ -52,7 +52,7 @@ public partial class ProductView : ContentView
 
         product.IsBought = e.Value;
 
-        ProductCheckedChanged?.Invoke(this, product.IsBought);
+        //ProductCheckedChanged?.Invoke(this, product.IsBought);
 
         StackLayout stackLayout = (StackLayout)Children[0];
         stackLayout.BackgroundColor = Colors.Transparent;
@@ -76,7 +76,7 @@ public partial class ProductView : ContentView
         }
 
         Models.AllShoppingLists.SaveShoppingLists();
-        //MessagingCenter.Send(this, "ProductCheckedChanged");
+        MessagingCenter.Send(this, "ProductCheckedChanged");
     }
 
     private void IncrementButton_Clicked(object sender, EventArgs e)

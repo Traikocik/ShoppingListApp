@@ -23,15 +23,14 @@
                      Clicked="ExportShoppingList_Clicked" 
                      IconImageSource="{FontImage Glyph='📤', Color=White, Size=20}" />
     </ContentPage.ToolbarItems>
-    <CollectionView x:Name="categoriesCollection"
-                    ItemsSource="{Binding Categories}">
+    <CollectionView x:Name="categoriesCollection" ItemsSource="{Binding Categories}">
         <CollectionView.ItemsLayout>
             <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
         </CollectionView.ItemsLayout>
         <CollectionView.ItemTemplate>
             <DataTemplate>
                 <StackLayout>
-                    <Label>
+                    <Label x:Name="CategoryNameLabel" IsVisible="{Binding IsCategoryNameVisible}">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Products of " />
@@ -39,8 +38,11 @@
                                 <Span Text=" category:" />
                             </FormattedString>
                         </Label.FormattedText>
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnCategoryTapped" />
+                        </Label.GestureRecognizers>
                     </Label>
-                    <views:CategoryView BindingContext="{Binding}" />
+                    <views:CategoryView IsVisible="{Binding IsExpanded}" BindingContext="{Binding}" />
                 </StackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>
