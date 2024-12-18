@@ -73,13 +73,13 @@ namespace ShoppingList4F1.Models
             {
                 string id = productElement.Attribute("Id").Value;
                 string name = productElement.Attribute("Name").Value;
-                string typeOfMeasurement = productElement.Attribute("TypeOfMeasurement").Value;
+                string unitId = productElement.Attribute("UnitId").Value;
                 bool isBought = bool.Parse(productElement.Attribute("IsBought").Value);
                 bool isOptional = bool.Parse(productElement.Attribute("IsOptional").Value);
                 double quantity = double.Parse(productElement.Attribute("Quantity").Value, CultureInfo.InvariantCulture);
                 string shopId = productElement.Attribute("ShopId").Value;
 
-                Product product = new Product(id, name, typeOfMeasurement, isBought, isOptional, quantity, shopId);
+                Product product = new Product(id, name, unitId, isBought, isOptional, quantity, shopId);
                 products.Add(product);
             }
 
@@ -88,14 +88,14 @@ namespace ShoppingList4F1.Models
 
         public XElement GetElementFromProducts()
         {
-            var productsElement = new XElement("Products");
+            XElement productsElement = new XElement("Products");
 
             foreach (var product in Products)
             {
-                var productElement = new XElement("Product",
+                XElement productElement = new XElement("Product",
                     new XAttribute("Id", product.Id),
                     new XAttribute("Name", product.Name),
-                    new XAttribute("TypeOfMeasurement", product.TypeOfMeasurement),
+                    new XAttribute("UnitId", product.UnitId),
                     new XAttribute("IsBought", product.IsBought),
                     new XAttribute("IsOptional", product.IsOptional),
                     new XAttribute("Quantity", product.Quantity),

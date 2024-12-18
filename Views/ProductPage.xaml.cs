@@ -7,6 +7,7 @@ public partial class ProductPage : ContentPage
     private Models.ShoppingList ShoppingList { get; set; }
     public ObservableCollection<Models.Category> Categories { get; set; }
     public ObservableCollection<Models.Shop> Shops { get; set; }
+    public ObservableCollection<Models.Unit> Units { get; set; }
     private Models.Shop noShop;
 
     public ProductPage(Models.ShoppingList shoppingList)
@@ -25,6 +26,10 @@ public partial class ProductPage : ContentPage
         Shops.Add(new Models.Shop("Add new shop"));
         ShopPicker.ItemsSource = Shops;
         ShopPicker.SelectedItem = noShop;
+
+        Units = new ObservableCollection<Models.Unit>(Models.AllShoppingLists.Units);
+        Units.Add(new Models.Unit("Add new unit"));
+        UnitPicker.ItemsSource = Units;
     }
 
     private async void SaveButton_Clicked(object sender, EventArgs e)
@@ -42,11 +47,22 @@ public partial class ProductPage : ContentPage
             return;
         }
 
-        string typeOfMeasurement = TypeOfMeasurementEditor.Text;
-        if (string.IsNullOrEmpty(typeOfMeasurement))
+        Models.Unit selectedUnit = (Models.Unit)UnitPicker.SelectedItem;
+        if (selectedUnit == null || selectedUnit.Name == "Add new unit")
         {
-            await DisplayAlert("WARNING!", "Type of measurement's entry is empty! Can't add new product.", "OK");
-            return;
+            string unitName = await DisplayPromptAsync("Add new unit", "Enter the name of the new unit:");
+            if (!string.IsNullOrEmpty(unitName))
+            {
+                Models.Unit unit = new Models.Unit(unitName);
+                Models.AllShoppingLists.Units.Add(unit);
+                UnitPicker.SelectedItem = selectedUnit;
+            }
+            else
+            {
+                await DisplayAlert("WARNING!", "No unit has been selected or created. Can't add new product.", "OK");
+                UnitPicker.SelectedItem = null;
+                return;
+            }
         }
 
         bool isOptional = IsOptionalCheckBox.IsChecked;
@@ -54,8 +70,8 @@ public partial class ProductPage : ContentPage
         Models.Category selectedCategory = (Models.Category)CategoryPicker.SelectedItem;
         if (selectedCategory == null || selectedCategory.Name == "Add new category")
         {
-            string categoryName = await DisplayPromptAsync("Add new Category", "Enter the name of the new category:");
-            if (string.IsNullOrEmpty(categoryName))
+            string categoryName = await DisplayPromptAsync("Add new category", "Enter the name of the new category:");
+            if (!string.IsNullOrEmpty(categoryName))
             {
                 Models.Category category = new Models.Category(categoryName);
                 ShoppingList.Categories.Insert(ShoppingList.Categories.Count - 2, category);
@@ -65,10 +81,11 @@ public partial class ProductPage : ContentPage
             {
                 await DisplayAlert("WARNING!", "No category has been selected or created. Can't add new product.", "OK");
                 CategoryPicker.SelectedItem = null;
+                return;
             }
         }
 
-        var newProduct = new Models.Product(name, typeOfMeasurement, isOptional, quantity);
+        var newProduct = new Models.Product(name, selectedUnit.Id, isOptional, quantity);
 
         if (ShopPicker.SelectedItem != null)
         {
@@ -94,12 +111,12 @@ public partial class ProductPage : ContentPage
         var selectedCategory = CategoryPicker.SelectedItem as Models.Category;
         if (selectedCategory != null && selectedCategory.Name == "Add new category")
         {
-            string categoryName = await DisplayPromptAsync("New category", "Enter the name of the new category:");
+            string categoryName = await DisplayPromptAsync("Add new category", "Enter the name of the new category:");
             if (!string.IsNullOrEmpty(categoryName))
             {
                 Models.Category newCategory = new Models.Category(categoryName);
                 ShoppingList.Categories.Add(newCategory);
-                Categories.Insert(Categories.Count - 2, newCategory);
+                Categories.Insert(Categories.Count - 1, newCategory);
                 CategoryPicker.SelectedItem = newCategory;
             }
             else
@@ -116,20 +133,44 @@ public partial class ProductPage : ContentPage
         var selectedShop = ShopPicker.SelectedItem as Models.Shop;
         if (selectedShop != null && selectedShop.Name == "Add new shop")
         {
-            string shopName = await DisplayPromptAsync("New shop", "Enter the name of the new shop:");
+            string shopName = await DisplayPromptAsync("Add new shop", "Enter the name of the new shop:");
 
             if (!string.IsNullOrEmpty(shopName))
             {
                 Models.Shop newShop = new Models.Shop(shopName);
                 Models.AllShoppingLists.Shops.Add(newShop);
                 Models.AllShoppingLists.SaveShoppingLists();
-                Shops.Insert(Shops.Count - 2, newShop);
+                Shops.Insert(Shops.Count - 1, newShop);
                 ShopPicker.SelectedItem = newShop;
             }
             else
             {
                 ShopPicker.SelectedItem = noShop;
                 await DisplayAlert("WARNING!", "No shop name entered. Can't create new shop.", "OK");
+                return;
+            }
+        }
+    }
+
+    private async void UnitPicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var selectedUnit = UnitPicker.SelectedItem as Models.Unit;
+        if (selectedUnit != null && selectedUnit.Name == "Add new unit")
+        {
+            string unitName = await DisplayPromptAsync("Add new unit", "Enter the name of the new unit:");
+
+            if (!string.IsNullOrEmpty(unitName))
+            {
+                Models.Unit newUnit = new Models.Unit(unitName);
+                Models.AllShoppingLists.Units.Add(newUnit);
+                Models.AllShoppingLists.SaveShoppingLists();
+                Units.Insert(Units.Count - 1, newUnit);
+                UnitPicker.SelectedItem = newUnit;
+            }
+            else
+            {
+                UnitPicker.SelectedItem = null;
+                await DisplayAlert("WARNING!", "No unit name entered. Can't create new unit.", "OK");
                 return;
             }
         }

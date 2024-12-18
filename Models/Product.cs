@@ -11,7 +11,8 @@ namespace ShoppingList4F1.Models
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; }
-        public string TypeOfMeasurement { get; set; }
+        public string UnitId { get; set; }
+        public string UnitName => GetUnitName();
         private bool isBought;
         public bool IsBought
         {
@@ -55,25 +56,31 @@ namespace ShoppingList4F1.Models
             IsOptional = false;
         }
 
-        public Product(string name, string typeOfMeasurement, bool isOptional, double quantity)
+        public Product(string name, string unitId, bool isOptional, double quantity)
         {
             Id = Guid.NewGuid().ToString();
             Name = name;
-            TypeOfMeasurement = typeOfMeasurement;
+            UnitId = unitId;
             IsBought = false;
             IsOptional = isOptional;
             Quantity = quantity;
         }
 
-        public Product(string id, string name, string typeOfMeasurement, bool isBought, bool isOptional, double quantity, string shopId)
+        public Product(string id, string name, string unitId, bool isBought, bool isOptional, double quantity, string shopId)
         {
             Id = id;
             Name = name;
-            TypeOfMeasurement = typeOfMeasurement;
+            UnitId = unitId;
             IsBought = isBought;
             IsOptional = isOptional;
             Quantity = quantity;
             ShopId = shopId;
+        }
+
+        private string GetUnitName()
+        {
+            Unit unit = AllShoppingLists.Units.FirstOrDefault(u => u.Id == UnitId);
+            return unit?.Name ?? string.Empty;
         }
     }
 }

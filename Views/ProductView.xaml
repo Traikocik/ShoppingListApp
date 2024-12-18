@@ -6,7 +6,7 @@
         <CheckBox Margin="5" IsChecked="{Binding IsBought}" CheckedChanged="CheckBox_CheckedChanged"/>
         <Label Margin="5" Text="{Binding Name}"/>
         <Label Margin="5" Text="{Binding Quantity}"/>
-        <Label Margin="5" Text="{Binding TypeOfMeasurement}"/>
+        <Label Margin="5" Text="{Binding UnitName}"/>
         <ImageButton WidthRequest="20" HeightRequest="20" Background="Transparent" Source="plus.png" Clicked="IncrementButton_Clicked"/>
         <ImageButton WidthRequest="20" HeightRequest="20" Background="Transparent" Source="minus.png" Clicked="DecrementButton_Clicked"/>
         <ImageButton WidthRequest="20" HeightRequest="20" Background="Transparent" Source="remove.png" Clicked="RemoveButton_Clicked"/>

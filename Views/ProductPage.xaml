@@ -9,11 +9,11 @@
                 Text="{Binding Name}"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
-        <Editor x:Name="TypeOfMeasurementEditor"
-                Placeholder="Enter the type of measurement of the product"
-                Text="{Binding TypeOfMeasurement}"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+        <Picker x:Name="UnitPicker"
+                Title="Pick type of measurement"
+                ItemsSource="{Binding Units}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedIndexChanged="UnitPicker_SelectedIndexChanged" />
         <Editor x:Name="QuantityEditor"
                 Placeholder="Enter the quantity of the product"
                 Text="{Binding Quantity}"
