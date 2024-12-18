@@ -50,7 +50,7 @@ public partial class ShoppingListPage : ContentPage
         SetCollectionToCategoriesWithProducts();
     }
 
-    
+
 
     protected override void OnDisappearing()
     {
@@ -127,13 +127,48 @@ public partial class ShoppingListPage : ContentPage
         try
         {
             Models.ShoppingList currentShoppingList = (Models.ShoppingList)BindingContext;
-            var doc = new XDocument(
-                new XElement("ShoppingList",
-                    new XAttribute("Id", currentShoppingList.Id),
-                    new XAttribute("Name", currentShoppingList.Name),
-                    currentShoppingList.GetElementFromCategories()
-                )
-            );
+
+            var rootElement = new XElement("ShoppingListData");
+
+            var usedShopIds = currentShoppingList.Categories
+                .SelectMany(category => category.Products)
+                .Where(product => !string.IsNullOrEmpty(product.ShopId))
+                .Select(product => product.ShopId)
+                .Distinct().ToList();
+
+            var shopsElement = new XElement("Shops");
+            foreach (var shop in Models.AllShoppingLists.Shops.Where(shop => usedShopIds.Contains(shop.Id)))
+            {
+                var shopElement = new XElement("Shop",
+                    new XAttribute("Id", shop.Id),
+                    new XAttribute("Name", shop.Name));
+                shopsElement.Add(shopElement);
+            }
+            rootElement.Add(shopsElement);
+
+            var usedUnitIds = currentShoppingList.Categories
+                .SelectMany(category => category.Products)
+                .Where(product => !string.IsNullOrEmpty(product.UnitId))
+                .Select(product => product.UnitId)
+                .Distinct().ToList();
+
+            var unitsElement = new XElement("Units");
+            foreach (var unit in Models.AllShoppingLists.Units.Where(unit => usedUnitIds.Contains(unit.Id)))
+            {
+                var unitElement = new XElement("Unit",
+                    new XAttribute("Id", unit.Id),
+                    new XAttribute("Name", unit.Name));
+                unitsElement.Add(unitElement);
+            }
+            rootElement.Add(unitsElement);
+
+            var shoppingListElement = new XElement("ShoppingList", 
+                new XAttribute("Id", currentShoppingList.Id), 
+                new XAttribute("Name", currentShoppingList.Name), 
+                currentShoppingList.GetElementFromCategories());
+            rootElement.Add(shoppingListElement);
+
+            var doc = new XDocument(rootElement);
 
             var folderResult = await FolderPicker.Default.PickAsync();
 

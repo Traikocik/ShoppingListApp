@@ -24,7 +24,7 @@ namespace ShoppingList4F1.Models
         }
 
         public static void LoadShoppingLists()
-        {            
+        {
             if (File.Exists(FileName))
             {
                 ShoppingLists.Clear();
@@ -32,50 +32,58 @@ namespace ShoppingList4F1.Models
                 Units.Clear();
 
                 var doc = XDocument.Load(FileName);
+                var rootElement = doc.Root;
 
-                var unitsElement = doc.Root.Element("Units");
-                if (unitsElement != null)
+                if (rootElement != null)
                 {
-                    foreach (var unitElement in unitsElement.Elements("Unit"))
+                    var unitsElement = rootElement.Element("Units");
+                    if (unitsElement != null)
                     {
-                        string id = unitElement.Attribute("Id").Value;
-                        string name = unitElement.Attribute("Name").Value;
-                        Units.Add(new Unit(id, name));
+                        foreach (var unitElement in unitsElement.Elements("Unit"))
+                        {
+                            string id = unitElement.Attribute("Id").Value;
+                            string name = unitElement.Attribute("Name").Value;
+                            Units.Add(new Unit(id, name));
+                        }
                     }
-                }
 
-                if(Units.Count == 0)
-                {
-                    Units.Add(new Unit("pcs."));
-                    Units.Add(new Unit("l."));
-                    Units.Add(new Unit("kg."));
-                }
-
-                var shopsElement = doc.Root.Element("Shops");
-                if (shopsElement != null)
-                {
-                    foreach (var shopElement in shopsElement.Elements("Shop"))
+                    if (Units.Count == 0)
                     {
-                        string id = shopElement.Attribute("Id").Value;
-                        string name = shopElement.Attribute("Name").Value;
-                        Shops.Add(new Shop(id, name));
+                        Units.Add(new Unit("pcs."));
+                        Units.Add(new Unit("l."));
+                        Units.Add(new Unit("kg."));
                     }
-                }
 
-                foreach (var shoppingListElement in doc.Root.Elements("ShoppingList"))
-                {
-                    string id = shoppingListElement.Attribute("Id").Value;
-                    string name = shoppingListElement.Attribute("Name").Value;
-                    ShoppingList shoppingList = new ShoppingList(id, name);
-                    shoppingList.SetCategoriesFromElement(shoppingListElement.Element("Categories"));
-                    ShoppingLists.Add(shoppingList);
+                    var shopsElement = rootElement.Element("Shops");
+                    if (shopsElement != null)
+                    {
+                        foreach (var shopElement in shopsElement.Elements("Shop"))
+                        {
+                            string id = shopElement.Attribute("Id").Value;
+                            string name = shopElement.Attribute("Name").Value;
+                            Shops.Add(new Shop(id, name));
+                        }
+                    }
+
+                    var shoppingListsElement = rootElement.Element("ShoppingLists");
+                    if (shoppingListsElement != null)
+                    {
+                        foreach (var shoppingListElement in shoppingListsElement.Elements("ShoppingList"))
+                        {
+                            string id = shoppingListElement.Attribute("Id").Value;
+                            string name = shoppingListElement.Attribute("Name").Value;
+                            ShoppingList shoppingList = new ShoppingList(id, name);
+                            shoppingList.SetCategoriesFromElement(shoppingListElement.Element("Categories"));
+                            ShoppingLists.Add(shoppingList);
+                        }
+                    }
                 }
             }
         }
 
         public static void SaveShoppingLists()
         {
-            var rootElement = new XElement("ShoppingLists");
+            var rootElement = new XElement("ShoppingListsAppData");
 
             var unitsElement = new XElement("Units");
             foreach (var unit in Units)
@@ -97,6 +105,7 @@ namespace ShoppingList4F1.Models
             }
             rootElement.Add(shopsElement);
 
+            var shoppingListsElement = new XElement("ShoppingLists");
             foreach (var shoppingList in ShoppingLists)
             {
                 XElement categoriesElement = new XElement(shoppingList.GetElementFromCategories());
@@ -104,8 +113,9 @@ namespace ShoppingList4F1.Models
                     new XAttribute("Id", shoppingList.Id),
                     new XAttribute("Name", shoppingList.Name),
                     categoriesElement);
-                rootElement.Add(shoppingListElement);
+                shoppingListsElement.Add(shoppingListElement);
             }
+            rootElement.Add(shoppingListsElement);
 
             var doc = new XDocument(rootElement);
             doc.Save(FileName);

@@ -78,6 +78,34 @@ public partial class AllShoppingListsPage : ContentPage
                     return;
                 }
 
+                var shopsElement = doc.Root.Element("Shops");
+                if (shopsElement != null)
+                {
+                    foreach (var shopElement in shopsElement.Elements("Shop"))
+                    {
+                        string shopName = shopElement.Attribute("Name")?.Value;
+                        string shopId = shopElement.Attribute("Id")?.Value;
+                        if (!string.IsNullOrEmpty(shopName) && !Models.AllShoppingLists.Shops.Any(s => s.Id == shopId))
+                        {
+                            Models.AllShoppingLists.Shops.Add(new Models.Shop(shopId, shopName));
+                        }
+                    }
+                }
+
+                var unitsElement = doc.Root.Element("Units");
+                if (unitsElement != null)
+                {
+                    foreach (var unitElement in unitsElement.Elements("Unit"))
+                    {
+                        string unitName = unitElement.Attribute("Name")?.Value;
+                        string unitId = unitElement.Attribute("Id")?.Value;
+                        if (!string.IsNullOrEmpty(unitName) && !Models.AllShoppingLists.Units.Any(u => u.Id == unitId))
+                        {
+                            Models.AllShoppingLists.Units.Add(new Models.Unit(unitId, unitName));
+                        }
+                    }
+                }
+
                 Models.ShoppingList shoppingList = new Models.ShoppingList(id, name);
                 shoppingList.SetCategoriesFromElement(doc.Root.Element("Categories"));
                 Models.AllShoppingLists.ShoppingLists.Add(shoppingList);

@@ -54,6 +54,7 @@ namespace ShoppingList4F1.Models
             Id = Guid.NewGuid().ToString();
             IsBought = false;
             IsOptional = false;
+            quantity = 1;
         }
 
         public Product(string name, string unitId, bool isOptional, double quantity)
