@@ -61,10 +61,12 @@ public partial class AllShoppingListsPage : ContentPage
 
             if (fileResult != null)
             {
-                XDocument doc = XDocument.Load(fileResult.FullPath);
+                var doc = XDocument.Load(fileResult.FullPath);
+                var rootElement = doc.Root;
 
-                string id = doc.Root.Attribute("Id").Value;
-                string name = doc.Root.Attribute("Name").Value;
+                var shoppingListElement = doc.Root.Element("ShoppingList");
+                string id = shoppingListElement.Attribute("Id").Value;
+                string name = shoppingListElement.Attribute("Name").Value;
 
                 if (Models.AllShoppingLists.ShoppingLists.Any(sl => sl.Id == id))
                 {
@@ -78,7 +80,7 @@ public partial class AllShoppingListsPage : ContentPage
                     return;
                 }
 
-                var shopsElement = doc.Root.Element("Shops");
+                var shopsElement = rootElement.Element("Shops");
                 if (shopsElement != null)
                 {
                     foreach (var shopElement in shopsElement.Elements("Shop"))
@@ -92,7 +94,7 @@ public partial class AllShoppingListsPage : ContentPage
                     }
                 }
 
-                var unitsElement = doc.Root.Element("Units");
+                var unitsElement = rootElement.Element("Units");
                 if (unitsElement != null)
                 {
                     foreach (var unitElement in unitsElement.Elements("Unit"))
@@ -107,7 +109,7 @@ public partial class AllShoppingListsPage : ContentPage
                 }
 
                 Models.ShoppingList shoppingList = new Models.ShoppingList(id, name);
-                shoppingList.SetCategoriesFromElement(doc.Root.Element("Categories"));
+                shoppingList.SetCategoriesFromElement(shoppingListElement.Element("Categories"));
                 Models.AllShoppingLists.ShoppingLists.Add(shoppingList);
                 Models.AllShoppingLists.SaveShoppingLists();
 

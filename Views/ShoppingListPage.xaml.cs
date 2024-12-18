@@ -50,8 +50,6 @@ public partial class ShoppingListPage : ContentPage
         SetCollectionToCategoriesWithProducts();
     }
 
-
-
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
