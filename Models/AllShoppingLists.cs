@@ -44,6 +44,13 @@ namespace ShoppingList4F1.Models
                     }
                 }
 
+                if(Units.Count == 0)
+                {
+                    Units.Add(new Unit("pcs."));
+                    Units.Add(new Unit("l."));
+                    Units.Add(new Unit("kg."));
+                }
+
                 var shopsElement = doc.Root.Element("Shops");
                 if (shopsElement != null)
                 {
