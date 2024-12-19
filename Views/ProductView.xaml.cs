@@ -7,8 +7,6 @@ namespace ShoppingList4F1.Views;
 
 public partial class ProductView : ContentView
 {
-    //public event EventHandler<bool> ProductCheckedChanged;
-
     public static readonly BindableProperty ParentCategoryProperty =
             BindableProperty.Create(
                 nameof(ParentCategory),
@@ -51,8 +49,6 @@ public partial class ProductView : ContentView
         if (BindingContext is not Models.Product product || ParentCategory == null) return;
 
         product.IsBought = e.Value;
-
-        //ProductCheckedChanged?.Invoke(this, product.IsBought);
 
         StackLayout stackLayout = (StackLayout)Children[0];
         stackLayout.BackgroundColor = Colors.Transparent;

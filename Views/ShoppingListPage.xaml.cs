@@ -13,12 +13,6 @@ public partial class ShoppingListPage : ContentPage
         InitializeComponent();
         BindingContext = new Models.ShoppingList();
 
-        //categoriesCollection.ItemTemplate = new DataTemplate(() =>
-        //{
-        //    var categoryView = new CategoryView();
-        //    categoryView.CategoryChanged += CategoryView_CategoryChanged;
-        //    return categoryView;
-        //});
         MessagingCenter.Subscribe<ProductView>(this, "ProductCheckedChanged", (sender) =>
         {
             if (IsFilteringByNotBought)
@@ -31,12 +25,6 @@ public partial class ShoppingListPage : ContentPage
         InitializeComponent();
         BindingContext = shoppingList;
 
-        //categoriesCollection.ItemTemplate = new DataTemplate(() =>
-        //{
-        //    var categoryView = new CategoryView();
-        //    categoryView.CategoryChanged += CategoryView_CategoryChanged;
-        //    return categoryView;
-        //});
         MessagingCenter.Subscribe<ProductView>(this, "ProductCheckedChanged", (sender) =>
         {
             if (IsFilteringByNotBought)
@@ -208,12 +196,4 @@ public partial class ShoppingListPage : ContentPage
 
         categoriesCollection.ItemsSource = categories;
     }
-
-    //private void CategoryView_CategoryChanged(object sender, EventArgs e)
-    //{
-    //    if (IsFilteringByNotBought)
-    //    {
-    //        FilterByNotBought_Clicked(null, null);
-    //    }
-    //}
 }
