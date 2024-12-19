@@ -37,10 +37,10 @@ public partial class ProductView : ContentView
             stackLayout.BackgroundColor = Colors.Transparent;
 
             if (product.IsOptional)
-                stackLayout.BackgroundColor = Colors.DarkGoldenrod;
+                stackLayout.BackgroundColor = Color.FromArgb("#FF705000");
 
             if (product.IsBought)
-                stackLayout.BackgroundColor = Colors.Gray;
+                stackLayout.BackgroundColor = Color.FromArgb("#FF333333");
 
             Models.AllShoppingLists.SaveShoppingLists();
         }
@@ -58,10 +58,10 @@ public partial class ProductView : ContentView
         stackLayout.BackgroundColor = Colors.Transparent;
 
         if (product.IsOptional)
-            stackLayout.BackgroundColor = Colors.DarkGoldenrod;
+            stackLayout.BackgroundColor = Color.FromArgb("#FF705000");
 
         if (product.IsBought)
-            stackLayout.BackgroundColor = Colors.Gray;
+            stackLayout.BackgroundColor = Color.FromArgb("#FF333333");
 
 
         var sortedProducts = ParentCategory.Products

@@ -6,7 +6,7 @@
     <CollectionView x:Name="productsCollection"
                 ItemsSource="{Binding Products}">
         <CollectionView.ItemsLayout>
-            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+            <LinearItemsLayout Orientation="Vertical"/>
         </CollectionView.ItemsLayout>
         <CollectionView.ItemTemplate>
             <DataTemplate>

@@ -2,13 +2,38 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShoppingList4F1.Views.ProductView">
-    <StackLayout Orientation="Horizontal">
-        <CheckBox Margin="5" IsChecked="{Binding IsBought}" CheckedChanged="CheckBox_CheckedChanged"/>
-        <Label Margin="5" Text="{Binding Name}"/>
-        <Label Margin="5" Text="{Binding Quantity}"/>
-        <Label Margin="5" Text="{Binding UnitName}"/>
-        <ImageButton WidthRequest="20" HeightRequest="20" Background="Transparent" Source="plus.png" Clicked="IncrementButton_Clicked"/>
-        <ImageButton WidthRequest="20" HeightRequest="20" Background="Transparent" Source="minus.png" Clicked="DecrementButton_Clicked"/>
-        <ImageButton WidthRequest="20" HeightRequest="20" Background="Transparent" Source="remove.png" Clicked="RemoveButton_Clicked"/>
+    <StackLayout Orientation="Horizontal" Padding="6">
+        <CheckBox IsChecked="{Binding IsBought}" CheckedChanged="CheckBox_CheckedChanged"/>
+        <Label 
+            Text="{Binding Name}"
+            FontSize="24"
+            VerticalTextAlignment="Center"/>
+        <ImageButton 
+            WidthRequest="10" 
+            HeightRequest="10" 
+            Background="Transparent" 
+            Source="minus.png" 
+            Clicked="DecrementButton_Clicked"/>
+        <Label 
+            Text="{Binding Quantity}"
+            FontSize="24"
+            VerticalTextAlignment="Center"/>
+        <Label 
+            Text="{Binding UnitName}"
+            FontSize="24"
+            VerticalTextAlignment="Center"/>
+        <ImageButton 
+            WidthRequest="10" 
+            HeightRequest="10" 
+            Background="Transparent" 
+            Source="plus.png" 
+            Clicked="IncrementButton_Clicked"/>
+        <ImageButton 
+            WidthRequest="10" 
+            HeightRequest="10" 
+            HorizontalOptions="EndAndExpand"
+            Background="Transparent" 
+            Source="remove.png" 
+            Clicked="RemoveButton_Clicked"/>
     </StackLayout>
 </ContentView>

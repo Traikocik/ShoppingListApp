@@ -3,15 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShoppingList4F1.Views.CreateShoppingListPage"
              Title="Create Shopping List">
-    <VerticalStackLayout>
+    <VerticalStackLayout Margin="20">
         <Editor x:Name="NameEditor"
                 Placeholder="Enter name of your Shopping List"
+                HorizontalTextAlignment="Center"
+                VerticalTextAlignment="Center"
                 Text="{Binding Text}"
-                HeightRequest="100" />
-
-        <Grid ColumnDefinitions="*,*" ColumnSpacing="4">
-            <Button Text="Save"
-                    Clicked="SaveButton_Clicked" />
-        </Grid>
+                HeightRequest="60"
+                FontSize="28"
+                Margin="20"/>
+        <Button Text="Save"
+                BackgroundColor="#8c87e5"
+                Clicked="SaveButton_Clicked" />
     </VerticalStackLayout>
 </ContentPage>

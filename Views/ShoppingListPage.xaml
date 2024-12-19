@@ -2,8 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:ShoppingList4F1.Views"
+             xmlns:converters="clr-namespace:ShoppingList4F1.Converters"
              x:Class="ShoppingList4F1.Views.ShoppingListPage"
              Title="Shopping List">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BooleanToArrowConverter x:Key="BooleanToArrowConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add Product" 
                      Clicked="AddProduct_Clicked" 
@@ -23,27 +29,33 @@
                      Clicked="ExportShoppingList_Clicked" 
                      IconImageSource="{FontImage Glyph='📤', Color=White, Size=20}" />
     </ContentPage.ToolbarItems>
-    <CollectionView x:Name="categoriesCollection" ItemsSource="{Binding Categories}">
+    <CollectionView x:Name="categoriesCollection" Margin="20" ItemsSource="{Binding Categories}">
         <CollectionView.ItemsLayout>
-            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+            <LinearItemsLayout Orientation="Vertical" ItemSpacing="4"/>
         </CollectionView.ItemsLayout>
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <StackLayout>
-                    <Label x:Name="CategoryNameLabel" IsVisible="{Binding IsCategoryNameVisible}">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Products of " />
-                                <Span Text="{Binding Name}" />
-                                <Span Text=" category:" />
-                            </FormattedString>
-                        </Label.FormattedText>
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnCategoryTapped" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                    <views:CategoryView IsVisible="{Binding IsExpanded}" BindingContext="{Binding}" />
-                </StackLayout>
+                <Border BackgroundColor="#474747"
+                        Stroke="#8c87e5"
+                        StrokeThickness="4"
+                        StrokeShape="RoundRectangle 4">
+                    <StackLayout>
+                        <Label x:Name="CategoryNameLabel" IsVisible="{Binding IsCategoryNameVisible}" Padding="10" BackgroundColor="#2A2A2A">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding IsExpanded, Converter={StaticResource BooleanToArrowConverter}}" FontAutoScalingEnabled="True" FontSize="18"/>
+                                    <Span Text=" Products of " FontSize="22" />
+                                    <Span Text="{Binding Name}" FontSize="22" FontAttributes="Bold" />
+                                    <Span Text=" category:" FontSize="22" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCategoryTapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <views:CategoryView IsVisible="{Binding IsExpanded}" BindingContext="{Binding}" />
+                    </StackLayout>
+                </Border>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>

@@ -14,18 +14,26 @@
     <CollectionView x:Name="shoppingListsCollection"
                     ItemsSource="{Binding ShoppingLists}"
                     SelectionMode="Single"
-                    SelectionChanged="shoppingListsCollection_SelectionChanged">
+                    SelectionChanged="shoppingListsCollection_SelectionChanged"
+                    Margin="50">
         <CollectionView.ItemsLayout>
             <LinearItemsLayout Orientation="Vertical" 
                                ItemSpacing="10"/>
         </CollectionView.ItemsLayout>
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <StackLayout>
-                    <Label Text="{Binding Name}"/>
+                <StackLayout Orientation="Horizontal"
+                             Padding="10"
+                             BackgroundColor="#333">
+                    <Label Text="{Binding Name}"
+                           VerticalOptions="CenterAndExpand" 
+                           HorizontalOptions="StartAndExpand"
+                           Margin="10,0,0,0"
+                           FontSize="20"/>
                     <ImageButton WidthRequest="20" 
                                  HeightRequest="20" 
-                                 Background="Transparent" 
+                                 Background="Transparent"
+                                 Margin="0,0,30,0"
                                  Source="remove.png" 
                                  Clicked="RemoveButton_Clicked"/>
                 </StackLayout>
