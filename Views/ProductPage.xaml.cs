@@ -41,9 +41,9 @@ public partial class ProductPage : ContentPage
             return;
         }
 
-        if (!double.TryParse(QuantityEditor.Text, out double quantity))
+        if (!double.TryParse(QuantityEditor.Text, out double quantity) || quantity <= 0)
         {
-            await DisplayAlert("WARNING!", "Quantity's entry is empty! Can't add new product.", "OK");
+            await DisplayAlert("WARNING!", "Quantity's entry is wrong, it must be greater than 0! Can't add new product.", "OK");
             return;
         }
 

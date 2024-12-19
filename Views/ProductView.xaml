@@ -14,10 +14,12 @@
             Background="Transparent" 
             Source="minus.png" 
             Clicked="DecrementButton_Clicked"/>
-        <Label 
-            Text="{Binding Quantity}"
+        <Entry
+            Text="{Binding Quantity, Mode=TwoWay}"
             FontSize="24"
-            VerticalTextAlignment="Center"/>
+            VerticalTextAlignment="Center"
+            Keyboard="Numeric"
+            TextChanged="QuantityEntry_TextChanged"/>
         <Label 
             Text="{Binding UnitName}"
             FontSize="24"

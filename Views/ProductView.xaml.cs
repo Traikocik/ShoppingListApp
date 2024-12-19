@@ -102,6 +102,33 @@ public partial class ProductView : ContentView
         if (BindingContext is Models.Product product)
         {
             ParentCategory.Products.Remove(product);
+            Models.Category parentCategory = Models.AllShoppingLists.ShoppingLists.SelectMany(list => list.Categories).FirstOrDefault(c => c.Id == ParentCategory.Id);
+            if (parentCategory != null)
+            {
+                Models.Product productToRemove = parentCategory.Products
+                    .FirstOrDefault(p => p.Id == product.Id);
+
+                if (productToRemove != null)
+                    parentCategory.Products.Remove(productToRemove);
+            }
+            Models.AllShoppingLists.SaveShoppingLists();
+        }
+    }
+
+    private void QuantityEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (BindingContext is Models.Product product && sender is Entry entry)
+        {
+            if (double.TryParse(entry.Text, out double newQuantity) && newQuantity > 0)
+            {
+                product.Quantity = newQuantity;
+            }
+            else
+            {
+                entry.TextChanged -= QuantityEntry_TextChanged;
+                entry.Text = product.Quantity.ToString();
+                entry.TextChanged += QuantityEntry_TextChanged;
+            }
             Models.AllShoppingLists.SaveShoppingLists();
         }
     }
